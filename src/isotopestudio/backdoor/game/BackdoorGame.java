@@ -83,7 +83,6 @@ import doryanbessiere.isotopestudio.api.user.UserAPI;
 import doryanbessiere.isotopestudio.api.web.Response;
 import doryanbessiere.isotopestudio.commons.GsonInstance;
 import doryanbessiere.isotopestudio.commons.RunnerUtils;
-import doryanbessiere.isotopestudio.commons.Toolkit;
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import doryanbessiere.isotopestudio.commons.logger.Logger;
 import doryanbessiere.isotopestudio.commons.logger.file.LoggerFile;
@@ -107,6 +106,7 @@ import isotopestudio.backdoor.game.settings.VideoSettings;
 import isotopestudio.backdoor.gateway.GatewayClient;
 import isotopestudio.backdoor.network.client.GameClient;
 import isotopestudio.backdoor.utils.ConsoleWriter;
+import test.Toolkit;
 
 public class BackdoorGame {
 

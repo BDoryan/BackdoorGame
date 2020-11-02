@@ -1,10 +1,10 @@
 package isotopestudio.backdoor.gateway.packet.packets;
 
+import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.desktop.notification.Notification;
 import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.gateway.GatewayClient;
 import isotopestudio.backdoor.gateway.packet.Packet;
-import test.Lang;
 
 /**
  * @author BESSIERE

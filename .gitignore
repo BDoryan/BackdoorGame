@@ -1,0 +1,10 @@
+/target/*
+/bin/
+/.settings/
+!target/datapacks/
+!target/resources/
+!target/langs/
+!target/keyboards/
+!target/changelogs.log
+!target/legui.json
+!target/game.properties

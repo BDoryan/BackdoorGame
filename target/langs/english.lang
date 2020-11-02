@@ -1,0 +1,123 @@
+message_yes=Yes
+message_no=NO
+message_ok=Okay
+
+java_terminal_title=Java Terminal
+terminal_title=Terminal
+
+team_blue=Blue
+team_red=Red	
+
+would_you_like_an_update=Would you like an update ?
+update_available=Update available
+update_completed=Update completed
+do_you_want_to_shutdown_the_game=Do you want to exit the game ?
+allows_you_to_connect_to_a_node=Allow you to connect to a node.
+
+debug_title=Debug 
+debug_any_fps_limit=Any fps limit.
+debug_fps_limited_to= Fps are limited to %fps% fps. 
+debug_component_target=Composent targeted %component_targeted%
+debug_fps=FPS:
+debug_fps_limiter=FPS Limiter:
+debug_ping= Ping of the official server:
+debug_fullscreen=Fullscreen:
+debug_dimension=dimension windowed:
+debug_ram_usage=Ram used: %usage%% (%used_mb%/%total_mb% MB).
+debug_cpu_cores=Cpu cores free: %cores%
+
+terminal_command_invalid_try_this_command=Invalid command
+terminal_connection_to_the_node=connection to the node %address% in progress...
+terminal_your_are_connected_to_the_node=You've been connected to the node %address%
+terminal_no_access_to_the_node=You can't connect to this node
+terminal_node_disconnection=Disconnection to the node %address% 
+terminal_attack_description=Allows you to launch an attack on a node
+terminal_command_invalid=This is an invalid command!
+terminal_no_node_connected=Any node connected! "connect <adresse ip>".
+
+party_dialog_end_party_title=This game's over
+party_dialog_end_party_message=End of the game winners are the %team%
+
+application_network_information=Network information
+application_cannot_launch_title=You cannot connect to this application.
+application_cannot_launch_any_party=You cannot launch the application, you're not in game.
+
+you_do_not_have_access_to_the_server=You can't acces to the server.
+
+command_disconnect_element=Allows you to disconnect from the server where you are connected
+
+you_are_not_looged_in_to_an_account=You're not looged into an account
+you_were_not_authenticated_when_the_game_started=You were'nt authenticated when the game starded
+
+dashboard_connection_button=Connection
+dashboard_firewall=Firewall
+dashboard_red=Red team
+dashboard_blue=Blue Team
+
+dashboard_ip=IP: %value%
+dashboard_status=Status: %value%
+dashboard_team=Team: %value%
+dashboard_country=Country: %value%
+
+dashboard_any_team_set=any
+
+game_element_attacked=Attacked
+game_element_offline=Disconnected
+game_element_neutral=Neutral
+game_element_captured=Captured
+
+settings_window_title=Settings
+settings_window_generals=General
+settings_window_themes=Themes
+settings_window_audios=Audios
+settings_window_displays=Displays
+settings_window_save_settings=Save settings
+settings_window_informations=Informations
+
+settings_themes_dialog_failed_datpack_loading_title=Data pack can't be uploaded.
+settings_themes_dialog_failed_datpack_loading_message=A problem occurred during the loading of the datapack, it must be corrupted or invalid.
+settings_themes_apply_datapack=Apply
+settings_themes_delete_datapack=Delete
+settings_themes_rename_datapack=Rename
+settings_themes_create_datapack=Create
+settings_themes_duplicate_datapack=Duplicate
+
+window_settings_generals_lang_selection=Select a language
+window_settings_generals_keyboard_selection=Select keyborad language.
+
+terminal_select_a_attack_type=Select an attack type.
+terminal_use_a_command=Use a command.
+terminal_use_a_script=Use a script
+terminal_leave=Leave.
+terminal_select_a_script=Select a script: <nom du script>
+terminal_you_are_connected_to_the_server=You're connected to the server: %address%
+terminal_your_key=Key found: %key%
+terminal_type_the_key=Please enter the key !
+terminal_your_are_not_connected_on_a_server=You're not connected to a server!
+terminal_inventory=Inventory
+terminal_refresh_scripts_list=Refresh the script list.
+terminal_you_dont_have_this_script=You don't have this script.
+terminal_the_script_has_been_executed=This script have benn executed.
+
+market_money=BTC: %money%
+market_offensive_script=Offensives scripts
+market_defensive_script=Defensives scripts
+market_description=Description:
+market_full_cost=Full cost: %cost% BTC
+market_buy_button=Buy
+
+script_healer_description='healer.sh' script, regenerates the acquisition bar of 1 point of your team every 5 seconds for 1 minute.
+script_heal_description='heal.sh' script regenerates all the acquisition bar of your team.
+script_attack_description='attack.sh' script, earns 3 acquisition points for your team (if the server is already owned by the opposing team this will take 3 points away from them).
+script_attacker_description='attacker.sh' script earns 1 acquisition point for your team every 5 seconds for 1 minute((if the server is already owned by the opposing team this will take 1 point away from them).
+script_shield_description='shield.sh' script protects opponents' connections for 30 seconds.
+script_kickall_description='kickall.sh' script kick all players from the server.
+script_shutdown_description='shutdown.sh' shutdown the server for 30 seconds.
+script_firewall_description='firewall.sh' script add 5 points of protection (it has priority over enemy attacks and it protects your acquisition bar)
+
+backbot_notification_ready_title=Heyyyy, I'm BackBot :)
+backbot_notification_ready_text=I'm here to help you on the game but also warn you, this game is in BETA (trying version) and if you find abnormalities(bugs) it's normal, don't hesitate to let us know on (https://www.isotope-studio.fr/support/).
+
+taskbar_settings=Settings
+taskbar_shutdown=Leave the game
+taskbar_profile=My profile

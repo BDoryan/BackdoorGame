@@ -1,0 +1,47 @@
+togglebutton_background_color=#353535
+togglebutton_background_color_hovered=#444444
+togglebutton_background_color_pressed=#444444
+togglebutton_background_color_focused=#353535
+togglebutton_background_color_disabled=#c02739
+
+togglebutton_border_color=rgba(0,0,0,0)
+togglebutton_border_color_hovered=rgba(0,0,0,0)
+togglebutton_border_color_pressed=rgba(0,0,0,0)
+togglebutton_border_color_focused=#A0A0A0
+togglebutton_border_color_disabled=#c02739
+
+togglebutton_toggled_background_color=rgb(46, 204, 113)
+togglebutton_toggled_background_color_hovered=rgb(46, 204, 113)
+togglebutton_toggled_background_color_pressed=rgb(46, 204, 113)
+togglebutton_toggled_background_color_focused=rgb(46, 204, 113)
+togglebutton_toggled_background_color_disabled=rgb(46, 204, 113)
+
+togglebutton_toggled_border_color=rgba(0,0,0,0)
+togglebutton_toggled_border_color_hovered=rgba(0,0,0,0)
+togglebutton_toggled_border_color_pressed=rgba(0,0,0,0)
+togglebutton_toggled_border_color_focused=rgba(0,0,0,0)
+togglebutton_toggled_border_color_disabled=rgba(0,0,0,0)
+
+togglebutton_untoggled_background_color=rgb(231, 76, 60)
+togglebutton_untoggled_background_color_hovered=rgb(231, 76, 60)
+togglebutton_untoggled_background_color_pressed=rgb(231, 76, 60)
+togglebutton_untoggled_background_color_focused=rgb(231, 76, 60)
+togglebutton_untoggled_background_color_disabled=rgb(231, 76, 60)
+
+togglebutton_untoggled_border_color=rgba(0,0,0,0)
+togglebutton_untoggled_border_color_hovered=rgba(0,0,0,0)
+togglebutton_untoggled_border_color_pressed=rgba(0,0,0,0)
+togglebutton_untoggled_border_color_focused=rgba(0,0,0,0)
+togglebutton_untoggled_border_color_disabled=rgba(0,0,0,0)
+
+togglebutton_text_color=#FFFFFF
+togglebutton_text_color_hovered=#FFFFFF
+togglebutton_text_color_pressed=#FFFFFF
+togglebutton_text_color_focused=#FFFFFF
+
+togglebutton_text_font=main
+togglebutton_text_font_hovered=main
+togglebutton_text_font_pressed=main
+togglebutton_text_font_focused=main
+
+togglebutton_border_radius=1

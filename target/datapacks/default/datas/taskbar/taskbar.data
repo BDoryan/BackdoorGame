@@ -1,0 +1,5 @@
+task_bar_position=102
+task_bar_background_color=rgb(40,40,40)
+task_bar_background_color_focused=rgb(40,40,40)
+task_bar_background_color_hovered=rgb(40,40,40)
+task_bar_background_color_pressed=rgb(40,40,40)

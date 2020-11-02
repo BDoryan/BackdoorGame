@@ -1,0 +1,7 @@
+top_panel_background_color=rgb(30,30,30)
+button_background_color_focused=#444444
+
+friend_panel_background_color=#1E1E1E
+friend_panel_background_color_hovered=#121212
+friend_panel_background_color_focused=#1e1e1e
+friend_panel_background_color_pressed=#1E1E1E

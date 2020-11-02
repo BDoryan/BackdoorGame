@@ -1,0 +1,16 @@
+progressbar_background_color=#141413
+progressbar_background_color_hovered=#141413
+progressbar_background_color_pressed=#141413
+progressbar_background_color_focused=#141413
+
+progressbar_border_color=rgba(0,0,0,0)
+progressbar_border_color_hovered=rgba(0,0,0,0)
+progressbar_border_color_pressed=rgba(0,0,0,0)
+progressbar_border_color_focused=rgba(0,0,0,0)
+
+progressbar_progress_color=#27AE60
+progressbar_progress_color_hovered=#27AE60
+progressbar_progress_color_pressed=#27AE60
+progressbar_progress_color_focused=#27AE60
+
+progressbar_border_radius=0

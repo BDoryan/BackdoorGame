@@ -1,0 +1,163 @@
+message_yes=Oui
+message_no=Non
+message_ok=D'accord
+
+java_terminal_title=Java Terminal
+terminal_title=Terminal
+
+team_blue=Bleu
+team_red=Rouge
+
+online=En ligne
+offline=Hors ligne
+accept=Accepter
+delete=Supprimer
+add=Ajouter
+
+would_you_like_an_update=Voulez-vous faire la mise à jour ?
+update_available=Mise à jour disponible
+update_completed=Mise à jour terminé de télécharger
+do_you_want_to_shutdown_the_game=Voulez-vous éteindre le jeu automatique ?
+allows_you_to_connect_to_a_node=Permet de vous connectez à un noeud.
+
+debug_title=Debug 
+debug_any_fps_limit=aucune limite.
+debug_fps_limited_to=les fps sont limits à %fps% fps. 
+debug_ping=Délai de réponse avec le serveur: %ping% ms.
+debug_component_target=Composant ciblé: %component_targeted%
+debug_fps=FPS:
+debug_tps=TPS:
+debug_fps_limiter=FPS Limiter:
+debug_fullscreen=État du plein écran:
+debug_dimension=Dimension fenêtre:
+debug_ram_usage=Mémoire vive: %usage%% (%used_mb%/%total_mb% MB).
+debug_cpu_cores=Coeur processeur disponible: %cores%
+debug_gateway_status_disconnected=Connexion à la passerelle: déconnecté
+debug_gateway_status_connected=Connexion à la passerelle: connecté 
+
+terminal_command_invalid_try_this_command=Commande non valide
+terminal_connection_to_the_node=Connexion vers le noeud %address% en cours...
+terminal_your_are_connected_to_the_node=Vous êtes désormais connecté(e) au noeud %address%
+terminal_no_access_to_the_node=Vous n'avez pas accès au noeud
+terminal_node_disconnection=Déconnexion du noeud %address% 
+terminal_attack_description=Allows you to launch an attack on a node
+terminal_command_invalid=Cette commande n'est pas valide!
+terminal_no_node_connected=Aucun noeud connecté ! "connect <adresse ip>".
+
+party_dialog_end_party_title=La partie est terminée
+party_dialog_end_party_message=Fin de la partie les gagnants sont l'équipe %team%
+
+application_network_information=Information réseau
+application_cannot_launch_title=Impossible de lancer l'application
+application_cannot_launch_any_party=Vous ne pouvez pas lancer l'application car vous n'êtes pas en partie
+
+you_do_not_have_access_to_the_server=Vous n'avez pas accès au serveur!
+
+command_disconnect_element=Vous permet de vous déconnecter du où vous êtes connecté
+
+you_are_not_looged_in_to_an_account=Vous n'êtes pas connecté à un compte
+you_were_not_authenticated_when_the_game_started=Vous n'avez pas été authentifié au démarrage du jeu
+
+dashboard_connection_button=Connexion
+dashboard_firewall=Pare-feux
+dashboard_red=équipe rouge
+dashboard_blue=équipe bleu
+
+dashboard_ip=IP: %value%
+dashboard_status=Statut: %value%
+dashboard_team=Équipe: %value%
+dashboard_country=Pays: %value%
+
+dashboard_any_team_set=aucune
+
+game_element_attacked=Attaqué
+game_element_offline=Déconnecté
+game_element_neutral=Neutre
+game_element_captured=Capturé
+
+friends_window_title=Gestion de vos ami(e)s
+
+friends_window_invite=Inviter
+friends_window_message=Messagerie
+friends_window_profile=Profile
+friends_window_delete=Supprimer
+
+settings_window_title=Paramètres
+settings_window_generals=Générals
+settings_window_themes=Thèmes
+settings_window_audios=Audios
+settings_window_displays=Affichages
+settings_window_save_settings=Sauvegarder les paramètres
+settings_window_informations=Informations
+
+settings_window_settings_saved=Les paramètres sont sauvegardés.
+
+settings_themes_dialog_failed_datpack_loading_title=Le datapack n'a pu être chargé
+settings_themes_dialog_failed_datpack_loading_message=Un problème est survenu lors de l'application du datapack, celui-ci doit être corrompu ou invalide.
+
+settings_themes_apply_datapack=Appliquer
+settings_themes_delete_datapack=Supprimer
+settings_themes_rename_datapack=Renommer
+settings_themes_create_datapack=Créer
+
+settings_themes_creation_of_a_datapack=Création d'un datapack
+settings_themes_please_enter_the_name_of_the_datapack=Veuillez rentrez le nom du datapack.
+settings_themes_create_the_datapack=Créer le datapack.
+
+settings_themes_rename_a_datapack=Changement du nom du datapack
+settings_themes_please_enter_the_new_name_of_the_datapack=Veuillez rentrez le nouveau nom du datapack.
+settings_themes_rename_the_datapack=Renommer le datapack
+
+settings_themes_delete_a_datapack=Suppression du datapack
+settings_themes_delete_a_datapack_question=Voulez-vous vraiment supprimer le datapack '%datapack%'.
+
+settings_display_fps_limit=Limite d'image par secondes:
+settings_display_fps_limit_tooltip=Grâce à se paramètres vous pouvez réduire la consommation de votre carte graphique en limitant les ips (images par secondes)
+settings_display_fps_limiter=Activer la limite d'image par secondes:
+settings_display_antialiasing=Activer l'antialiasing:
+settings_display_resolution=Dimension de l'affichage actuel:
+settings_display_fullscreen=Activer le mode plein écran:
+
+window_settings_generals_lang_selection=Sélectionner une langue
+window_settings_generals_keyboard_selection=Sélectionner la langue du clavier
+window_settings_generals_refresh_rate_selection=Sélectionner le débit de rafraichissement
+
+terminal_select_a_attack_type=Sélectionner un type d'attaque
+terminal_use_a_command=Utiliser une commande
+terminal_use_a_script=Utiliser un script
+terminal_leave=Quitter
+terminal_select_a_script=Sélectionner un script: select <nom du script>
+terminal_you_are_connected_to_the_server=Vous êtes connectés sur le serveur: %address%
+terminal_your_key=Clé trouvée: %key%
+terminal_type_the_key=Veuillez saisir la clé !
+terminal_your_are_not_connected_on_a_server=Vous n'êtes pas connecté sur un serveur!
+terminal_inventory=Inventaire
+terminal_refresh_scripts_list=Rafraichir la liste des scripts
+terminal_you_dont_have_this_script=Vous n'avez pas ce script
+terminal_the_script_has_been_executed=Le script à bien été éxécuté
+
+market_money=BTC: %money%
+market_offensive_script=Scripts offensifs
+market_defensive_script=Scripts défensifs
+market_description=Description:
+market_full_cost=Prix total: %cost% BTC
+market_buy_button=Acheter
+
+script_healer_description=Le script 'healer.sh', régénère la barre d'acquisition de 1 point de votre équipe toutes les 5 secondes pendant 1 minute.
+script_heal_description=Le script 'heal.sh' regénère complétement la barre d'acquisition de votre équipe.
+script_attack_description=Le script 'attack.sh' fait gagner 3 points d'acquisition à votre équipe (si le serveur est déjà possédé par une équipe cela enlève 3 points à celle-ci).
+script_attacker_description=Le script 'attacker.sh' fait gagner 1 point d'acquisition à votre équipe toutes 5 secondes pendant 1 minute (si le serveur est déjà possédé par une équipe cela enlève 1 points à celle-ci).
+script_shield_description=Le script 'shield.sh' protége des connexions des adversaires pendant 30 secondes.
+script_kickall_description=Le script 'kickall.sh' éjecte tous les joueurs connectés sur le serveur.
+script_shutdown_description=Le script 'shutdown.sh' met le serveur hors-service pendant une durée de 30 secondes.
+script_firewall_description=Le script 'firewall.sh' rajoute une protection de 5 points (il prioritaire sur les attaques des énnemies, il protège votre barre d'acquisition)
+
+backbot_notification_ready_title=Heyyyy, moi c'est Backbot
+backbot_notification_ready_text=Je suis ici pour t'aider sur le jeu mais aussi pour te prévenir que le jeu est en version BETA (version d'essaie) et que si tu trouve des anomalies (bugs) cela est normal, n'hésite pas à nous en faire par (https://www.isotope-studio.fr/support/).
+
+taskbar_settings=Paramètres
+taskbar_shutdown=Quitter le jeu
+taskbar_restart=Redémarrer le jeu
+taskbar_profile=Votre profile
+
+chat_application_title=Messagerie

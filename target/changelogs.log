@@ -1,0 +1,13 @@
+{
+  "title": "Nouveautées, modification et corrections du jeu",
+  "subtitle": "Le jeu reste en version de BETA",
+  "version": "automatic",
+  "date": "2013-02-10T13:45:30+0100",
+  "contents": {
+    "Ajouté(s)": [
+      "Désormais le serveur fessant passerelle peut vous envoyez des notifications",
+      "Désormais vous pouvez vous créer un lobby (uniquement en commande)",
+      "Désormais vous pouvez rechercher des joueurs en matchmaking (uniquement en commande)",
+    ]
+  }
+}

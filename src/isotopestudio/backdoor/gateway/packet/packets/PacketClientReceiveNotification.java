@@ -1,5 +1,7 @@
 package isotopestudio.backdoor.gateway.packet.packets;
 
+import org.liquidengine.legui.image.Image;
+
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.desktop.notification.Notification;
 import isotopestudio.backdoor.game.BackdoorGame;
@@ -55,6 +57,12 @@ public class PacketClientReceiveNotification extends Packet {
 	
 	@Override
 	public void process(GatewayClient client) {
-		BackdoorGame.getDesktop().spawnNotification(new Notification(BackdoorGame.getDatapack().getImage(image_path), title, message, 10));
+		Image image = null;
+		if(image_path.startsWith("http")) {
+			image = BackdoorGame.loadImageURL(image_path);
+		} else {
+			image = BackdoorGame.getDatapack().getImage(image_path);
+		}
+		BackdoorGame.getDesktop().spawnNotification(new Notification(image, title, message, 10));
 	}
 }

@@ -43,7 +43,6 @@ public class ChatApplication extends Window implements IComponent {
 		}
 	}
 
-	// icon_window_terminal
 	public ChatApplication() {
 		super("", 0, 0, 600, 400);
 

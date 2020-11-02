@@ -1,0 +1,7 @@
+18:52:49 ERROR	[Thread-3]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (Server returned HTTP response code: 403 for URL: https://cdn.discordapp.com/attachments/489417878861512704/768817778978324481/Ek69yZ-WAAYXELQ.png)
+23:01:12 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (https://isotope-studio.fr/server/api/users/339b67b1-1cec-4ec2-a0c2-a2c1f735a6a2/profile.png)
+23:09:48 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (org/liquidengine/legui/demo/1.jpg)
+23:09:48 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (org/liquidengine/legui/demo/1.png)
+23:09:48 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (org/liquidengine/legui/demo/2.png)
+23:09:48 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (org/liquidengine/legui/demo/3.png)
+23:09:48 ERROR	[main   ]	or.li.le.im.StbBackedLoadableImage      :	45	:	org.liquidengine.legui.exception.LeguiException: Failed to initialize image. (org/liquidengine/legui/demo/toggle.png)

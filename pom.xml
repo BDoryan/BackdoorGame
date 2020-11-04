@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>isotopestudio.backdoor.game</groupId>
 	<artifactId>game</artifactId>
-	<version>0.0.77-SNAPSHOT</version>
+	<version>0.0.78-SNAPSHOT</version>
 	<name>BackdoorGame</name>
 	<build>
 		<sourceDirectory>src</sourceDirectory>

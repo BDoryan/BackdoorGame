@@ -11,7 +11,7 @@ window_border_color_focused=rgba(0,0,0,120);
 window_title_background_color=#141413
 window_title_background_color_hovered=#141413
 window_title_background_color_pressed=#141413
-window_title_background_color_focused=#141413
+window_title_background_color_focused=#353535
 
 window_title_color=#FFFFFF
 window_title_color_hovered=#FFFFFF

@@ -256,6 +256,24 @@ public class Window extends Widget implements IComponent {
 
 	@Override
 	public void update() {
+		if(isWindowTargeted()) {
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_focused",
+					getTitleContainer().getStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_focused",
+					getTitleContainer().getHoveredStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_focused",
+					getTitleContainer().getFocusedStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_focused",
+					getTitleContainer().getPressedStyle());
+		} else {
+			DataParameters.applyBackgroundColor(this, "window_title_background_color", getTitleContainer().getStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_focused",
+					getTitleContainer().getFocusedStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_hovered",
+					getTitleContainer().getHoveredStyle());
+			DataParameters.applyBackgroundColor(this, "window_title_background_color_pressed",
+					getTitleContainer().getPressedStyle());
+		}
 	}
 
 	public boolean isWindowTargeted() {

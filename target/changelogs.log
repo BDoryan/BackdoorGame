@@ -4,10 +4,8 @@
   "version": "automatic",
   "date": "2013-02-10T13:45:30+0100",
   "contents": {
-    "Correction(s)": [
-      "Les fenêtres dialog sont désormais bien dimensionnées",
-      "Exclusion du serveur passerelle lorsque vous avez des mauvais identifiants, une erreur d'identification ou si le compte utilisateur est déjà en ligne",
-      "Le système d'ami est de nouveau fonctionnel"
+    "Ajout(s)": [
+      "Désormais lorsque votre fenêtre est 'focus' vous aurez une différence de couleur au niveau de la barre de titre"
     ]
   }
 }

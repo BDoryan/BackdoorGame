@@ -105,6 +105,8 @@ import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.SettingsManager;
 import isotopestudio.backdoor.game.settings.VideoSettings;
 import isotopestudio.backdoor.gateway.GatewayClient;
+import isotopestudio.backdoor.gateway.packet.Packet;
+import isotopestudio.backdoor.gateway.packet.packets.PacketClientDisconnected;
 import isotopestudio.backdoor.network.client.GameClient;
 import isotopestudio.backdoor.utils.ConsoleWriter;
 
@@ -260,18 +262,6 @@ public class BackdoorGame {
 		load();
 		System.out.println("All game files are loaded!");
 		
-		gateway = new GatewayClient(user);
-		try {
-			System.out.println("Connection to gateway in process...");
-			gateway.connect("isotope-studio.fr", 18535, true);
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-			System.err.println("The connection to the gateway failed");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			System.err.println("The connection to the gateway failed");
-		}
-		
 		System.out.println("Game launch!");
 		ConsoleWriter writer = new ConsoleWriter();
 		writer.addContainer(" _____         _     _ \r\n" + "| __  |___ ___| |_ _| |___ ___ ___  \r\n"
@@ -302,7 +292,34 @@ public class BackdoorGame {
 	}
 
 	public static void load() {
-		logger = new Logger(null, new LoggerFile(new File(localDirectory(), "logs")));
+		logger = new Logger(null, new LoggerFile(new File(localDirectory(), "logs"))) {/*
+			@Override
+			public void exception(Exception exception) {
+				String title = exception.getLocalizedMessage();
+				String message = "";
+				for (Throwable throwable : exception.getSuppressed()) {
+					message += throwable_(throwable);
+				}
+				
+				if(getDesktop() != null)
+				getDesktop().dialog(title, message);
+				
+				super.exception(exception);
+			}
+				
+			private String throwable_(Throwable throwable) {
+				String message = "";
+				for (StackTraceElement element : throwable.getStackTrace()) {
+					message += ("    at " + element.getClassName() + "." + element.getMethodName() + "(" + element.getFileName() + ":"
+							+ element.getLineNumber() + ") \n");
+				}
+	
+				Throwable ourCause = throwable.getCause();
+				if (ourCause != null)
+					message += "Caused by: " + ourCause.getClass().getName() +" \n "+ throwable_(ourCause);
+				return message;
+			}*/
+		};
 
 		System.out.println("Clearing the cache directory");
 		if (getCacheDirectory().exists())
@@ -602,6 +619,37 @@ public class BackdoorGame {
 			startDesktop();
 		}).start();
 	}
+	
+	public static void init() {
+		gateway = new GatewayClient(user) {
+			@Override
+			public void processPacket(Packet packet) {
+				if(packet.getId() == Packet.CLIENT_DISCONNECTED) {
+					PacketClientDisconnected packetDisconnected = (PacketClientDisconnected) packet;
+					if(packetDisconnected.getType() == PacketClientDisconnected.KICKED) {
+						if(packetDisconnected.getReason().equals("user_already_connected")){
+							JOptionPane.showMessageDialog(null, Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()), Lang.get("dialog_gateway_disconnected_title"), JOptionPane.ERROR_MESSAGE);
+							BackdoorGame.stop();
+						} else {
+							getDesktop().dialog(Lang.get("dialog_gateway_disconnected_title"), Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()));
+						}
+					}
+					return;
+				}
+				super.processPacket(packet);
+			}
+		};
+		try {
+			System.out.println("Connection to gateway in process...");
+			gateway.connect("isotope-studio.fr", 18534, true);
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+			System.err.println("The connection to the gateway failed");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			System.err.println("The connection to the gateway failed");
+		}
+	}
 
 	public static void start() {
 		ICommand.listenJavaConsole().start();
@@ -684,6 +732,8 @@ public class BackdoorGame {
 		double deltaU = 0, deltaF = 0;
 		int frames = 0, ticks = 0;
 		long timer = System.currentTimeMillis();
+		
+		init();
 
 		while (!getGameWindow().shouldClose()) {
 			final double timeU = 1000000000 / game_settings.refresh_rate;

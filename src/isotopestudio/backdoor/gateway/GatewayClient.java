@@ -103,7 +103,7 @@ public class GatewayClient extends Thread {
 			try {
 				Packet packet = readPacket();
 				try {
-					packet.process(this);
+					processPacket(packet);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -132,6 +132,10 @@ public class GatewayClient extends Thread {
 		String data = packet.toData();
 		sendData(data);
 		BackdoorGame.getLogger().debug("sendPacket("+data+")");
+	}
+	
+	public void processPacket(Packet packet) {
+		packet.process(this);
 	}
 
 	/**

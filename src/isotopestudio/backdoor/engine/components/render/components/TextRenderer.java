@@ -12,16 +12,21 @@ import java.util.List;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import org.liquidengine.legui.component.event.label.LabelWidthChangeEvent;
 import org.liquidengine.legui.component.optional.TextState;
 import org.liquidengine.legui.component.optional.align.HorizontalAlign;
 import org.liquidengine.legui.component.optional.align.VerticalAlign;
+import org.liquidengine.legui.listener.processor.EventProcessorProvider;
 import org.liquidengine.legui.style.Style;
 import org.liquidengine.legui.style.font.FontRegistry;
 import org.liquidengine.legui.system.context.Context;
 import org.liquidengine.legui.system.renderer.nvg.component.NvgDefaultComponentRenderer;
+import org.liquidengine.legui.system.renderer.nvg.util.NvgRenderUtils;
+import org.liquidengine.legui.system.renderer.nvg.util.NvgShapes;
 import org.liquidengine.legui.system.renderer.nvg.util.NvgText;
 
 import isotopestudio.backdoor.engine.components.desktop.Text;
+import isotopestudio.backdoor.engine.components.events.TextDynamicSizeChangeEvent;
 
 /**
  * 
@@ -51,7 +56,6 @@ public class TextRenderer extends NvgDefaultComponentRenderer<Text> {
 
 			int line_index = 0;
 			int word_index = 0;
-
 			while (true) {
 				if(word_index > words.length) {
 					break;
@@ -62,6 +66,9 @@ public class TextRenderer extends NvgDefaultComponentRenderer<Text> {
 				while (word_index < words.length) {
 					String word = words[word_index];
 					word_index++;
+					
+					if(word.equals("\n"))
+						break;
 
 					line = (line == null ? word : line + " " + word);
 					
@@ -85,6 +92,8 @@ public class TextRenderer extends NvgDefaultComponentRenderer<Text> {
 						getStyle(text, Style::getFont, FontRegistry.getDefaultFont()), final_line,
 						getStyle(text, Style::getTextColor), text.getTextDirection());
 			}
+			
+	            EventProcessorProvider.getInstance().pushEvent(new TextDynamicSizeChangeEvent(text, context, text.getFrame(), size.x, fontSize * line_index));	
 			
 			/*
 			String[] lines = new String[(int) (textBounds[2] / size.x)];
@@ -121,5 +130,22 @@ public class TextRenderer extends NvgDefaultComponentRenderer<Text> {
 			*/
 		}
 		resetScissor(nanovg);
+	}
+	
+	private void renderBorder(Long nanovg, Vector2f size, Vector2f absolutePosition) {
+		 float thickness = 1;
+         Vector4f borderColor = new Vector4f(1,0,0,1) ;
+         if (thickness <= 0 || borderColor.w == 0) {
+             return;
+         }
+
+//         float cornerRadius = component.getBorderRadius();
+
+         Vector2f bSize = new Vector2f(size);
+         bSize.add(thickness, thickness);
+         Vector2f bPos = new Vector2f(absolutePosition).sub(thickness / 2f, thickness / 2f);
+
+         NvgShapes.drawRectStroke(nanovg, bPos, bSize, borderColor, thickness, 0);
+
 	}
 }

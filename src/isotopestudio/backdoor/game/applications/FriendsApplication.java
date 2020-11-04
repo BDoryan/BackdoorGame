@@ -1,6 +1,7 @@
 package isotopestudio.backdoor.game.applications;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,10 +16,8 @@ import org.liquidengine.legui.component.event.label.LabelWidthChangeEventListene
 import org.liquidengine.legui.component.event.textinput.TextInputContentChangeEvent;
 import org.liquidengine.legui.component.event.textinput.TextInputContentChangeEventListener;
 import org.liquidengine.legui.event.KeyEvent;
-import org.liquidengine.legui.event.KeyboardEvent;
 import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.event.MouseClickEvent.MouseClickAction;
-import org.liquidengine.legui.input.KeyAction;
 import org.liquidengine.legui.input.KeyCode;
 import org.liquidengine.legui.input.Keyboard;
 import org.liquidengine.legui.input.Mouse.MouseButton;
@@ -33,7 +32,6 @@ import org.lwjgl.glfw.GLFW;
 
 import doryanbessiere.isotopestudio.api.friends.FriendsAPI;
 import doryanbessiere.isotopestudio.api.profile.Profile;
-import doryanbessiere.isotopestudio.api.profile.ProfileAPI;
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Label;
@@ -44,8 +42,6 @@ import isotopestudio.backdoor.engine.components.desktop.window.Window;
 import isotopestudio.backdoor.engine.components.events.LabelSizeEvent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
-import isotopestudio.backdoor.game.applications.settings.SettingsApplication;
-import isotopestudio.backdoor.utils.legui.LeguiTools;
 
 public class FriendsApplication extends Window implements IComponent {
 
@@ -143,6 +139,12 @@ public class FriendsApplication extends Window implements IComponent {
 			@Override
 			public void process(TextInputContentChangeEvent event) {
 				if(event.getOldValue().equals(event.getNewValue()))return;
+				if(event.getNewValue().contains(" ")) {
+					int caret_position = search_textfield.getCaretPosition();
+					search_textfield.getTextState().setText(event.getOldValue());
+					search_textfield.setCaretPosition(caret_position > event.getOldValue().length() + 1 ? event.getOldValue().length() : caret_position);
+					return;
+				}
 				if(event.getNewValue().equals("") && searching) {
 					loadFriendsList();
 					searching = false;
@@ -285,9 +287,8 @@ public class FriendsApplication extends Window implements IComponent {
 				}
 				friends_off_y++;
 			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			BackdoorGame.getDesktop().dialog(Lang.get("dialog_exception_title", "%exception%", e.getClass().getSimpleName()), Lang.get("dialog_exception_message"));
 			e.printStackTrace();
 		}
 	}

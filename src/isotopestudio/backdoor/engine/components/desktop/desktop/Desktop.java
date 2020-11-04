@@ -1,4 +1,4 @@
-package isotopestudio.backdoor.engine.components.desktop.desktop;
+	package isotopestudio.backdoor.engine.components.desktop.desktop;
 
 import static org.liquidengine.legui.event.MouseClickEvent.MouseClickAction.CLICK;
 
@@ -10,31 +10,28 @@ import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.component.ImageView;
 import org.liquidengine.legui.component.Panel;
 import org.liquidengine.legui.component.event.button.ButtonWidthChangeEvent;
-import org.liquidengine.legui.component.event.button.ButtonWidthChangeEventListener;
-import org.liquidengine.legui.component.event.label.LabelContentChangeEvent;
-import org.liquidengine.legui.component.event.label.LabelContentChangeEventListener;
 import org.liquidengine.legui.component.misc.listener.button.UpdateButtonStyleWidthListener;
 import org.liquidengine.legui.component.misc.listener.button.UpdateButtonWidthListener;
 import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.event.WindowSizeEvent;
 import org.liquidengine.legui.intersection.RectangleIntersector;
+import org.liquidengine.legui.listener.EventListener;
 import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.listener.WindowSizeEventListener;
 import org.liquidengine.legui.style.Background;
 import org.liquidengine.legui.style.Style.DisplayType;
 
-import com.google.protobuf.Message;
-
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Button;
-import isotopestudio.backdoor.engine.components.desktop.Label;
+import isotopestudio.backdoor.engine.components.desktop.Text;
 import isotopestudio.backdoor.engine.components.desktop.desktop.taskbar.TaskBar;
 import isotopestudio.backdoor.engine.components.desktop.dialog.Dialog;
 import isotopestudio.backdoor.engine.components.desktop.dialog.DialogCallback;
 import isotopestudio.backdoor.engine.components.desktop.dialog.InputDialog;
 import isotopestudio.backdoor.engine.components.desktop.notification.Notification;
 import isotopestudio.backdoor.engine.components.desktop.window.Window;
+import isotopestudio.backdoor.engine.components.events.TextDynamicSizeChangeEvent;
 import isotopestudio.backdoor.engine.components.utils.Responsive;
 import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.applications.ChatApplication;
@@ -42,7 +39,6 @@ import isotopestudio.backdoor.game.applications.DashboardApplication;
 import isotopestudio.backdoor.game.applications.MarketApplication;
 import isotopestudio.backdoor.game.applications.MatchmakingApplication;
 import isotopestudio.backdoor.game.applications.NetworkApplication;
-import isotopestudio.backdoor.game.applications.hosting.HostingApplication;
 import isotopestudio.backdoor.game.applications.terminal.TerminalApplication;
 
 public class Desktop extends Panel implements IComponent {
@@ -235,26 +231,22 @@ public class Desktop extends Panel implements IComponent {
 	}
 
 	public void confirmDialog(String title, String message, Runnable no, Runnable yes) {
-		Dialog dialog = new Dialog(title, 300, 100);
+		int width = 600;
+		Dialog dialog = new Dialog(title, getSize().x < width ? getSize().x - 20 : width, 50);
 		dialog.getStyle().setMinWidth(dialog.getSize().x);
 		dialog.getStyle().setMinHeight(dialog.getSize().y);
 
-		Label questionLabel = new Label(message);
+		Text questionLabel = new Text(message);
 
 		questionLabel.getStyle().setLeft(10f);
 		questionLabel.getStyle().setTop(10f);
-		questionLabel.getStyle().setWidth(200);
-		questionLabel.getStyle().setHeight(20);
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
-				e -> questionLabel.getStyle().setMinWidth(questionLabel.getTextState().getTextWidth()));
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
-				new LabelContentChangeEventListener() {
-					@Override
-					public void process(LabelContentChangeEvent event) {
-						dialog.setSize(questionLabel.getTextState().getTextWidth() + 20, dialog.getSize().y);
-						dialog.centerLocation();
-					}
-				});
+		questionLabel.getStyle().setRight(10f);
+		questionLabel.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
+			@Override
+			public void process(TextDynamicSizeChangeEvent event) {
+				dialog.getSize().set(dialog.getSize().x, event.getHeight() + 50);
+			}
+		});
 
 		Button yesButton = new Button(Lang.get("message_yes"));
 		Button noButton = new Button(Lang.get("message_no"));
@@ -330,35 +322,29 @@ public class Desktop extends Panel implements IComponent {
 	}
 
 	public void dialog(String title, String message) {
-		Dialog dialog = new Dialog(title, 300, 100);
+		int width = 600;
+		Dialog dialog = new Dialog(title, getSize().x < width ? getSize().x - 20 : width, 50);
 		dialog.getStyle().setMinWidth(dialog.getSize().x);
 		dialog.getStyle().setMinHeight(dialog.getSize().y);
+		
 		dialog.getContainer().getStyle().setDisplay(DisplayType.FLEX);
 
-		Label questionLabel = new Label(message);
-
+		Text questionLabel = new Text(message);
 		questionLabel.getStyle().setLeft(10f);
 		questionLabel.getStyle().setTop(10f);
-		questionLabel.getStyle().setWidth(200);
-		questionLabel.getStyle().setHeight(20);
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
-				e -> questionLabel.getStyle().setMinWidth(questionLabel.getTextState().getTextWidth()));
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
-				new LabelContentChangeEventListener() {
-					@Override
-					public void process(LabelContentChangeEvent event) {
-						dialog.setSize(questionLabel.getTextState().getTextWidth() + 20, dialog.getSize().y);
-						dialog.centerLocation();
-					}
-				});
+		questionLabel.getStyle().setRight(10f);
+		questionLabel.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
+			@Override
+			public void process(TextDynamicSizeChangeEvent event) {
+				dialog.getSize().set(dialog.getSize().x, event.getHeight() + 50);
+			}
+		});
 
 		Button okButton = new Button(Lang.get("message_ok"));
-		okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener());
-		okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonWidthListener());
-		okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new ButtonWidthChangeEventListener() {
+		okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener() {
 			@Override
 			public void process(ButtonWidthChangeEvent event) {
-
+				okButton.getStyle().setWidth(event.getWidth() + 20);
 			}
 		});
 

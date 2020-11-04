@@ -143,6 +143,9 @@ public class DisplaysPanel extends Panel implements IComponent {
 				if(settings.fullscreen != fullscreen_togglebutton.isToggled()) {
 					BackdoorGame.getGameWindow().toggleFullscreen();
 				}
+				if(settings.antialiasing) {
+					
+				}
 				saveMessage();
 			}
 		});

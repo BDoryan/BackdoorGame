@@ -20,6 +20,14 @@ update_completed=Mise à jour terminé de télécharger
 do_you_want_to_shutdown_the_game=Voulez-vous éteindre le jeu automatique ?
 allows_you_to_connect_to_a_node=Permet de vous connectez à un noeud.
 
+dialog_exception_title=Le jeu à rencontrer une exception : %exception%
+dialog_exception_message=Vous avez éxécuter une tâche et le jeu à rencontrer un problème lors de son déroulement, veuillez contacter l'équipe si le problème persiste (cette fenêtre est utiliser pour éviter de vous faire planter directement le jeu)
+
+dialog_gateway_disconnected_title=Vous avez été éjecté du serveur passerelle
+dialog_gateway_disconnected_authentification_failed=L'authentification au serveur passerelle n'a pas pu être faite, veuillez vérifier que vos identifiants ne sont pas obselète
+dialog_gateway_disconnected_authentification_invalid=Le système d'authentification n'est pas valide, veuillez vérifier que vous disposez de la dernière mise à jour du jeu.
+dialog_gateway_disconnected_authentification_user_already_connected=Votre utilisateur est déjà connecté à notre serveur passerelle, veuillez vérifier que vous n'avez pas un deuxième jeu qui est démarré
+
 debug_title=Debug 
 debug_any_fps_limit=aucune limite.
 debug_fps_limited_to=les fps sont limits à %fps% fps. 

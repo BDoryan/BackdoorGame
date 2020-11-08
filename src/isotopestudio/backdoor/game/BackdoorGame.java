@@ -712,7 +712,7 @@ public class BackdoorGame {
 			Properties gateway_properties = new Properties();
 			gateway_properties.load(new URL(IsotopeStudioAPI.API_URL+"gateway.info").openStream());
 			System.out.println("Connection to gateway in process...");
-			Integer port =  Integer.valueOf(gateway_properties.getProperty("gateway.port."+(DEV_MODE ? "dev" : GAME_VERSION.endsWith("snapshot") ? "snapshot" : "release"))); 
+			Integer port =  Integer.valueOf(gateway_properties.getProperty("gateway.port."+(DEV_MODE ? "dev" : GAME_VERSION.endsWith("SNAPSHOT") ? "snapshot" : "release"))); 
 			gateway.connect("isotope-studio.fr", port, reconnect);
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();

@@ -23,10 +23,19 @@ allows_you_to_connect_to_a_node=Permet de vous connectez à un noeud.
 dialog_exception_title=Le jeu à rencontrer une exception : %exception%
 dialog_exception_message=Vous avez éxécuter une tâche et le jeu à rencontrer un problème lors de son déroulement, veuillez contacter l'équipe si le problème persiste (cette fenêtre est utiliser pour éviter de vous faire planter directement le jeu)
 
+dialog_friend_do_you_really_want_to_delete_title=Vous vous apprêter à supprimer un ami
+dialog_friend_do_you_really_want_to_delete_message=Êtes-vous vraiment sûr de vouloir retirer %username% de votre liste d'amis
+
+gateway_connection_restored_title=Connexion rétablie
+gateway_connection_restored_message=La connexion est désormais opérationnelle avec le serveur passerelle
+
+gateway_connection_failed_title=Erreur de connexion
+gateway_connection_failed_message=Le jeu n'a pas pu se connecter au serveur passerelle cela peut provenir d'un problème de connexion (https://isotope-studio.fr/support/)  
+
 dialog_gateway_disconnected_title=Vous avez été éjecté du serveur passerelle
 dialog_gateway_disconnected_authentification_failed=L'authentification au serveur passerelle n'a pas pu être faite, veuillez vérifier que vos identifiants ne sont pas obselète
 dialog_gateway_disconnected_authentification_invalid=Le système d'authentification n'est pas valide, veuillez vérifier que vous disposez de la dernière mise à jour du jeu.
-dialog_gateway_disconnected_authentification_user_already_connected=Votre utilisateur est déjà connecté à notre serveur passerelle, veuillez vérifier que vous n'avez pas un deuxième jeu qui est démarré
+dialog_gateway_disconnected_user_already_connected=Votre utilisateur est déjà connecté à notre serveur passerelle, veuillez vérifier que vous n'avez pas un deuxième jeu qui est démarré
 
 debug_title=Debug 
 debug_any_fps_limit=aucune limite.
@@ -54,6 +63,25 @@ terminal_no_node_connected=Aucun noeud connecté ! "connect <adresse ip>".
 
 party_dialog_end_party_title=La partie est terminée
 party_dialog_end_party_message=Fin de la partie les gagnants sont l'équipe %team%
+
+group_leave_group=Quitter
+group_delete_group=Supprimer le groupe
+group_search_a_party=Rechercher une partie
+group_start_a_party=Démarrer une partie
+group_private_party=Partie privée
+
+group_you_have_left_the_group_title=Vous avez bien réussie à quitter le groupe
+group_you_have_left_the_group_message= 
+group_you_are_not_in_any_group_title=Vous n'êtes actuellement dans aucun groupe
+group_you_are_not_in_any_group_message=Le serveur à détecter que vous êtes dans aucun groupe (Essayer de redémarrer le jeu si le problème est inconnue)
+group_you_are_already_in_a_group_dialog_title=Vous êtes déjà dans un groupe
+group_you_are_already_in_a_group_dialog_message=Le serveur détecte que vous êtes déjà dans un groupe ! (Essayer de redémarrer le jeu si le problème est inconnue)
+group_you_have_created_a_group_title=Vous avez créer un groupe avec succès
+group_you_have_created_a_group_message= 
+group_your_group_has_been_deleted_title=Votre groupe vient d'être supprimé par son chef
+group_your_group_has_been_deleted_message= 
+group_you_have_been_kicked_from_the_group_title=Vous avez été éjecter du groupe
+group_you_have_been_kicked_from_the_group_message= 
 
 application_network_information=Information réseau
 application_cannot_launch_title=Impossible de lancer l'application

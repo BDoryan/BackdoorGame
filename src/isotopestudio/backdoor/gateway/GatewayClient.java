@@ -91,7 +91,6 @@ public class GatewayClient extends Thread {
 
 	@Override
 	public void run() {
-
 		System.out.println("You are connected to the gateway");
 		sendData(BackdoorGame.GAME_VERSION + ";" + user.getEmail() + ";" + user.getToken());
 		if(dataInWaiting.size() > 0) {
@@ -104,6 +103,9 @@ public class GatewayClient extends Thread {
 				Packet packet = readPacket();
 				try {
 					processPacket(packet);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					disconnect("error_reading_packet");
+					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -145,7 +147,7 @@ public class GatewayClient extends Thread {
 	 * @return
 	 * @throws IOException
 	 */
-	public Packet readPacket() throws IOException {
+	public Packet readPacket() throws IOException, java.lang.ArrayIndexOutOfBoundsException {
 		String data = read();
 		BackdoorGame.getLogger().debug("readPacket("+data+")");
 		Packet packet = Packet.parsePacket(data);
@@ -189,7 +191,9 @@ public class GatewayClient extends Thread {
 			connected = false;
 			if (socket != null && !socket.isClosed())
 				socket.close();
+			if(input != null)
 			input.close();
+			if(output != null)
 			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();

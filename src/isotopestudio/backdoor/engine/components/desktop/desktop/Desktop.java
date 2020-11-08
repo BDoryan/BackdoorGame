@@ -37,8 +37,8 @@ import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.applications.ChatApplication;
 import isotopestudio.backdoor.game.applications.DashboardApplication;
 import isotopestudio.backdoor.game.applications.MarketApplication;
-import isotopestudio.backdoor.game.applications.MatchmakingApplication;
 import isotopestudio.backdoor.game.applications.NetworkApplication;
+import isotopestudio.backdoor.game.applications.group.GroupApplication;
 import isotopestudio.backdoor.game.applications.terminal.TerminalApplication;
 
 public class Desktop extends Panel implements IComponent {
@@ -69,6 +69,7 @@ public class Desktop extends Panel implements IComponent {
 	public void init() {
 		getListenerMap().addListener(WindowSizeEvent.class, (WindowSizeEventListener) event -> {
 			setSize(event.getWidth(), event.getHeight());
+			task_bar.friendResponsive.applyResponsive();
 			if (!windowSizeEventListeners.isEmpty()) {
 				for (WindowSizeEventListener listener : windowSizeEventListeners) {
 					listener.process(event);
@@ -141,7 +142,7 @@ public class Desktop extends Panel implements IComponent {
 				new Runnable() {
 					@Override
 					public void run() {
-						MatchmakingApplication.showApplication();
+						GroupApplication.showApplication();
 					}
 				}));
 

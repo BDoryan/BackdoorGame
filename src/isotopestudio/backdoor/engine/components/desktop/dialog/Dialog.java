@@ -72,6 +72,11 @@ public class Dialog extends Window implements IComponent {
             dialogLayer.add(this);
         }
     }
+    
+    @Override
+    public void hideWindow() {
+    	return;
+    }
 
     public DialogLayer getDialogLayer() {
         return dialogLayer;

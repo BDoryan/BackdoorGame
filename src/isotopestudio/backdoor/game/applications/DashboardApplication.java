@@ -378,7 +378,6 @@ public class DashboardApplication extends Window implements IComponent {
 			}
 		});
 		
-		
 		firewall_content.add(firewall_progressbar);
 		firewall_content.add(firewall_label);
 		firewall_content.add(firewall_points_label);

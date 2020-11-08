@@ -98,6 +98,7 @@ public class DebugApplication extends Window implements IComponent {
 
 	private long time = System.currentTimeMillis();
 
+	@Override
 	public void update() {
 		if (!BackdoorGame.getDesktop().containsWindow(this)) {
 			BackdoorGame.debugApplication = null;
@@ -156,6 +157,8 @@ public class DebugApplication extends Window implements IComponent {
 
 			time = System.currentTimeMillis() + 200;
 		}
+		
+		super.update();
 	}
 
 	private Vector4f danger = ColorConvert.convertToVector4f(ColorConvertor.get("#f44336"));

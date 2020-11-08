@@ -66,19 +66,20 @@ public class PopupMenu extends Panel implements IComponent {
 				}*/
 			} else {
 				float width = (component.getStyle().getDisplay() == DisplayType.FLEX ? (component.getStyle().getWidth() != null ? (float) component.getStyle().getWidth().get() : 0) : component.getSize().x) + (component.getStyle().getPaddingLeft() != null ?(float) component.getStyle().getPaddingLeft().get() : 0) + (component.getStyle().getPaddingRight() != null ? (float)component.getStyle().getPaddingRight().get() : 0);
-				float height = component.getStyle().getDisplay() == DisplayType.FLEX ? (component.getStyle().getHeight() != null ? (float) component.getStyle().getHeight().get() : 0) : component.getSize().y;
+				//float height = (component.getStyle().getDisplay() == DisplayType.FLEX ? (component.getStyle().getHeight() != null ? (float) component.getStyle().getHeight().get() : 0) : component.getSize().y) + (component.getStyle().getPaddingTop() != null ?(float) component.getStyle().getPaddingTop().get() : 0) + (component.getStyle().getPaddingBottom() != null ? (float)component.getStyle().getPaddingBottom().get() : 0);
+				float height = (component.getStyle().getDisplay() == DisplayType.FLEX ? (component.getStyle().getHeight() != null ? (float) component.getStyle().getHeight().get() : 0) : component.getSize().y);
 				
 				float widthSize = getSize().x;
 				if(getSize().x < width) {
 					widthSize = width;
 				}
 				
-				component.setPosition(component.getPosition().x, top);
-				top += space + height;
+				component.setPosition(component.getPosition().x, top + space);
+				top += height + space;
 
-				setSize(widthSize, getSize().y + space + height);
+				setSize(widthSize, getSize().y + height);
 			}	
-			setSize(getSize().x, top);
+			setSize(getSize().x, top + space);
 		}
 	}
 

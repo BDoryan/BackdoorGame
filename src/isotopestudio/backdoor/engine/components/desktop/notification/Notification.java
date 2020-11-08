@@ -6,11 +6,13 @@ import org.liquidengine.legui.component.optional.align.HorizontalAlign;
 import org.liquidengine.legui.component.optional.align.VerticalAlign;
 import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.image.Image;
+import org.liquidengine.legui.listener.EventListener;
 import org.liquidengine.legui.style.Style.DisplayType;
 
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.Text;
+import isotopestudio.backdoor.engine.components.events.TextDynamicSizeChangeEvent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 
 /**
@@ -36,7 +38,7 @@ public class Notification extends Component implements IComponent {
 		this.getStyle().setDisplay(DisplayType.FLEX);
 		this.getStyle().setBorderRadius(0f);
 		this.getStyle().setShadow(null);
-		this.setSize(400, 110);
+		this.setSize(410, 100);
 
 		this.label_title = new Label(title);
 		this.label_title.getStyle().setFontSize(18f);
@@ -57,24 +59,63 @@ public class Notification extends Component implements IComponent {
 
 		this.label_title.setFocusable(false);
 		this.label_title.setTabFocusable(false);
+
+		this.image_view = new ImageView(image);
+		this.image_view.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
+		this.image_view.getStyle().setHorizontalAlign(HorizontalAlign.CENTER);
+		this.image_view.getStyle().setBorderRadius(0f);
+		this.image_view.getStyle().setBorder(null);
+		this.image_view.getStyle().setShadow(null);
+		this.image_view.getStyle().getBackground().setColor(0, 0, 0, 0);
+
+		this.image_view.setFocusable(false);
+		this.image_view.setTabFocusable(false);
 		
+		this.text.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
+			boolean init = false;
+			@Override
+			public void process(TextDynamicSizeChangeEvent event) {
+				if(init)return;
+					init = true;
+					
+				if(image != null) {
+					float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
+					
+					int maximum_image_ratio = (int) (height - 20);
+
+					int image_height = image.getHeight() > maximum_image_ratio ? maximum_image_ratio : image.getHeight();
+					int image_width = image.getWidth() > maximum_image_ratio ? maximum_image_ratio : image.getWidth();
+
+					image_view.getStyle().setHeight(image_height);
+					image_view.getStyle().setWidth(image_width);
+					
+					if(image.getHeight() > maximum_image_ratio) {
+						image_view.getStyle().setTop(10);	
+					} else {
+						image_view.getStyle().setTop((height / 2) - (image_height / 2));
+					}
+					image_view.getStyle().setLeft(10);
+
+					Notification.this.text.getStyle().setLeft(image_width + 20);
+					Notification.this.label_title.getStyle().setLeft(image_width + 20);
+
+					float width = event.getWidth() + (image_width) + 20;
+
+					setSize(width, height);	
+				} else {
+					float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
+					float width = event.getWidth() + 20;
+					setSize(width, height);
+				}
+			}
+		});
+		
+		/*
 		float image_width = this.getSize().y - 20;
 		if (image != null) {
-			this.image_view = new ImageView(image);
-			this.image_view.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
-			this.image_view.getStyle().setHorizontalAlign(HorizontalAlign.CENTER);
-			this.image_view.getStyle().setBorderRadius(0f);
-			this.image_view.getStyle().setBorder(null);
-			this.image_view.getStyle().setShadow(null);
-			this.image_view.getStyle().getBackground().setColor(0, 0, 0, 0);
 
 			this.image_view.getStyle().setTop(10 + (image_width / 2 - (image.getHeight() / 2)));
 			this.image_view.getStyle().setLeft(10+ (image_width / 2 - (image.getWidth() / 2)));
-			this.image_view.getStyle().setHeight(image.getHeight());
-			this.image_view.getStyle().setWidth(image.getWidth());
-
-			this.image_view.setFocusable(false);
-			this.image_view.setTabFocusable(false);
 
 			this.text.getStyle().setLeft(106);
 			this.label_title.getStyle().setLeft(106f);
@@ -84,8 +125,10 @@ public class Notification extends Component implements IComponent {
 			this.add(this.image_view);
 		} else {
 			this.setSize(400, 106);
-		}
+		}*/
 
+		if(image != null)
+		this.add(this.image_view);
 		this.add(this.label_title);
 		this.add(this.text);
 	}

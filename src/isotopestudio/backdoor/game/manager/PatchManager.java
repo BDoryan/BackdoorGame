@@ -1,4 +1,4 @@
-package isotopestudio.backdoor.game.patch;
+package isotopestudio.backdoor.game.manager;
 
 /**
  * @author BESSIERE Doryan

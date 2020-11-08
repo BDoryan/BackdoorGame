@@ -82,12 +82,12 @@ public class DisplaysPanel extends Panel implements IComponent {
 		fps_limiter.setVariable(app.getComponentVariable() + "_fps_limiter");
 		fps_limiter.getStyle().setTop(70);
 		fps_limiter.getStyle().setLeft(30);
-		fps_limiter.getStyle().setFontSize(15f);
+fps_limiter.getStyle().setFontSize(15f);
 
-		fps_limiter_togglebutton.setVariable(app.getComponentVariable() + "_fps_limiter_togglebutton");
-		fps_limiter_togglebutton.getStyle().setTop(90);
-		fps_limiter_togglebutton.getStyle().setHeight(20);
-		fps_limiter_togglebutton.getStyle().setWidth(80);
+fps_limiter_togglebutton.setVariable(app.getComponentVariable() + "_fps_limiter_togglebutton");
+fps_limiter_togglebutton.getStyle().setTop(90);
+fps_limiter_togglebutton.getStyle().setHeight(20);
+fps_limiter_togglebutton.getStyle().setWidth(80);
 		fps_limiter_togglebutton.getStyle().setLeft(30);
 
 		fps_limiter_togglebutton.setToggled(settings.frames_limiter);
@@ -137,14 +137,14 @@ public class DisplaysPanel extends Panel implements IComponent {
 				VideoSettings settings = VideoSettings.getSettings();
 				settings.frames_limit = fps_limit_selector.getSelection(); 
 				settings.frames_limiter = fps_limiter_togglebutton.isToggled();
+				if(settings.antialiasing != antialiasing_togglebutton.isToggled()) {
+					// require a restart for applicated antialiasing or not
+				}
 				settings.antialiasing = antialiasing_togglebutton.isToggled();
 				settings.save();
 				
 				if(settings.fullscreen != fullscreen_togglebutton.isToggled()) {
 					BackdoorGame.getGameWindow().toggleFullscreen();
-				}
-				if(settings.antialiasing) {
-					
 				}
 				saveMessage();
 			}

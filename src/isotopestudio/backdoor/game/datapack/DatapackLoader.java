@@ -60,15 +60,27 @@ public class DatapackLoader {
 			this.images.put("window_icon_multiplayer", loadImage("icons/multiplayer"));
 			this.images.put("window_icon_settings", loadImage("icons/settings"));
 			this.images.put("backbot_happy", loadImage("icons/backbot_happy"));
+
+			this.images.put("error", loadImage("icons/error"));
+			this.images.put("warning", loadImage("icons/warning"));
+			this.images.put("success", loadImage("icons/success"));
+			
+			this.images.put("group_invitation", loadImage("icons/group_invitation"));
+			this.images.put("group_deleted", loadImage("icons/group_deleted"));
+			this.images.put("group_kick", loadImage("icons/group_kick"));
+			this.images.put("friend_invitation", loadImage("icons/friend_invitation"));
+			
 			this.images.put("icon_script", loadImage("icons/script"));
 			this.images.put("icon_server", loadImage("icons/server"));
 			this.images.put("icon_node", loadImage("icons/node"));
 			this.images.put("icon_profile", loadImage("icons/profile"));
 			this.images.put("icon_settings", loadImage("icons/settings"));
 			this.images.put("icon_shutdown", loadImage("icons/shutdown"));
+			this.images.put("icon_restart", loadImage("icons/restart"));
 			this.images.put("icon_friends", loadImage("icons/friends"));
 			this.images.put("icon_hosting", loadImage("icons/hosting"));
 			this.images.put("icon_messaging", loadImage("icons/messaging"));
+			this.images.put("icon_multiplayer", loadImage("icons/multiplayer"));
 			this.images.put("icon_multiplayer", loadImage("icons/multiplayer"));
 			this.images.put("window_icon_friends", loadImage("icons/friends"));
 			this.images.put("window_icon_hosting", loadImage("icons/hosting"));

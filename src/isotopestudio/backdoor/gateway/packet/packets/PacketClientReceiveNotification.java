@@ -17,6 +17,7 @@ public class PacketClientReceiveNotification extends Packet {
 	private String image_path;
 	private String title;
 	private String message;
+	private int duration;
 	
 	public PacketClientReceiveNotification() {
 		super(CLIENT_RECEIVE_NOTIFICATION);
@@ -32,6 +33,7 @@ public class PacketClientReceiveNotification extends Packet {
 		this.image_path = readString();
 		this.title = Lang.translate(readString());
 		this.message = Lang.translate(readString()); 
+		this.duration = readInt();
 	}
 	
 	/**
@@ -55,6 +57,13 @@ public class PacketClientReceiveNotification extends Packet {
 		return image_path;
 	}
 	
+	/**
+	 * @return the duration
+	 */
+	public int getDuration() {
+		return duration;
+	}
+	
 	@Override
 	public void process(GatewayClient client) {
 		Image image = null;
@@ -63,6 +72,6 @@ public class PacketClientReceiveNotification extends Packet {
 		} else {
 			image = BackdoorGame.getDatapack().getImage(image_path);
 		}
-		BackdoorGame.getDesktop().spawnNotification(new Notification(image, title, message, 10));
+		BackdoorGame.getDesktop().spawnNotification(new Notification(image, title, message, getDuration()));
 	}
 }

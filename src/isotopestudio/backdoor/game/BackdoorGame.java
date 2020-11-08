@@ -2,6 +2,7 @@ package isotopestudio.backdoor.game;
 
 import static org.bytedeco.opencv.global.opencv_imgproc.CV_BGR2RGBA;
 import static org.bytedeco.opencv.global.opencv_imgproc.cvtColor;
+import static org.liquidengine.legui.event.MouseClickEvent.MouseClickAction.CLICK;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -59,11 +60,16 @@ import org.liquidengine.legui.animation.Animator;
 import org.liquidengine.legui.animation.AnimatorProvider;
 import org.liquidengine.legui.component.Frame;
 import org.liquidengine.legui.component.ImageView;
+import org.liquidengine.legui.component.event.button.ButtonWidthChangeEvent;
+import org.liquidengine.legui.component.misc.listener.button.UpdateButtonStyleWidthListener;
+import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.event.WindowSizeEvent;
 import org.liquidengine.legui.image.BufferedImageRGBA;
 import org.liquidengine.legui.image.StbBackedLoadableImage;
 import org.liquidengine.legui.input.KeyCode;
 import org.liquidengine.legui.input.Keyboard;
+import org.liquidengine.legui.listener.EventListener;
+import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.listener.WindowSizeEventListener;
 import org.liquidengine.legui.style.Style.DisplayType;
 import org.liquidengine.legui.system.layout.LayoutManager;
@@ -87,7 +93,12 @@ import doryanbessiere.isotopestudio.commons.Toolkit;
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import doryanbessiere.isotopestudio.commons.logger.Logger;
 import doryanbessiere.isotopestudio.commons.logger.file.LoggerFile;
+import isotopestudio.backdoor.engine.components.desktop.Button;
+import isotopestudio.backdoor.engine.components.desktop.Text;
 import isotopestudio.backdoor.engine.components.desktop.desktop.Desktop;
+import isotopestudio.backdoor.engine.components.desktop.dialog.Dialog;
+import isotopestudio.backdoor.engine.components.desktop.notification.Notification;
+import isotopestudio.backdoor.engine.components.events.TextDynamicSizeChangeEvent;
 import isotopestudio.backdoor.engine.components.render.RenderManager;
 import isotopestudio.backdoor.engine.datapack.DatapackObject;
 import isotopestudio.backdoor.engine.keyboard.KeyboardLoader;
@@ -99,7 +110,7 @@ import isotopestudio.backdoor.game.command.ICommand;
 import isotopestudio.backdoor.game.command.commands.GameServerCommand;
 import isotopestudio.backdoor.game.datapack.DatapackLoader;
 import isotopestudio.backdoor.game.game.GameParty;
-import isotopestudio.backdoor.game.patch.PatchManager;
+import isotopestudio.backdoor.game.manager.PatchManager;
 import isotopestudio.backdoor.game.settings.AudioSettings;
 import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.SettingsManager;
@@ -117,6 +128,7 @@ public class BackdoorGame {
 	public static String LEGUI_VERSION;
 	public static String GAME_VERSION;
 	public static String JOML_VERSION;
+	public static boolean DEV_MODE = false;
 
 	public static int FPS;
 	public static int TPS;
@@ -154,6 +166,9 @@ public class BackdoorGame {
 		RunnerUtils arguments = new RunnerUtils(args);
 		arguments.read();
 
+		if(arguments.contains("devmode"))
+			DEV_MODE = arguments.getBoolean("devmode");
+		
 		avutil.av_log_set_level(avutil.AV_LOG_QUIET);
 		converter = new OpenCVFrameConverter.ToMat();
 
@@ -619,17 +634,68 @@ public class BackdoorGame {
 			startDesktop();
 		}).start();
 	}
-	
+
 	public static void init() {
 		gateway = new GatewayClient(user) {
+			
+			@Override
+			public void reconnect() throws UnknownHostException, IOException {
+				super.reconnect();
+				getDesktop().spawnNotification(new Notification(getDatapack().getImage("success"), Lang.get("gateway_connection_restored_title"), Lang.get("gateway_connection_restored_message"), 10));
+			}
+			
 			@Override
 			public void processPacket(Packet packet) {
 				if(packet.getId() == Packet.CLIENT_DISCONNECTED) {
 					PacketClientDisconnected packetDisconnected = (PacketClientDisconnected) packet;
 					if(packetDisconnected.getType() == PacketClientDisconnected.KICKED) {
 						if(packetDisconnected.getReason().equals("user_already_connected")){
-							JOptionPane.showMessageDialog(null, Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()), Lang.get("dialog_gateway_disconnected_title"), JOptionPane.ERROR_MESSAGE);
-							BackdoorGame.stop();
+							frame.getContainer().remove(getDesktop());
+							int width = 600;
+							Dialog dialog = new Dialog(Lang.get("dialog_gateway_disconnected_title"), frame.getContainer().getSize().x < width ? frame.getContainer().getSize().x - 20 : width, 50);
+							dialog.getStyle().setMinWidth(dialog.getSize().x);
+							dialog.getStyle().setMinHeight(dialog.getSize().y);
+							
+							dialog.getContainer().getStyle().setDisplay(DisplayType.FLEX);
+
+							Text questionLabel = new Text(Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()));
+							questionLabel.getStyle().setLeft(10f);
+							questionLabel.getStyle().setTop(10f);
+							questionLabel.getStyle().setRight(10f);
+							questionLabel.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
+								@Override
+								public void process(TextDynamicSizeChangeEvent event) {
+									dialog.getSize().set(dialog.getSize().x, event.getHeight() + 50);
+								}
+							});
+
+							Button okButton = new Button(Lang.get("message_ok"));
+							okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener() {
+								@Override
+								public void process(ButtonWidthChangeEvent event) {
+									okButton.getStyle().setWidth(event.getWidth() + 20);
+								}
+							});
+
+							okButton.getListenerMap().addListener(MouseClickEvent.class, (MouseClickEventListener) e -> {
+								if (CLICK == e.getAction()) {
+									dialog.close();
+									BackdoorGame.stop();
+								}
+							});
+
+							okButton.getStyle().setLeft(10f);
+							okButton.getStyle().setBottom(10f);
+							okButton.getStyle().setHeight(20);
+
+							dialog.getContainer().add(questionLabel);
+							dialog.getContainer().add(okButton);
+
+							dialog.load();
+							questionLabel.load();
+							okButton.load();
+
+							dialog.show(BackdoorGame.frame);
 						} else {
 							getDesktop().dialog(Lang.get("dialog_gateway_disconnected_title"), Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()));
 						}
@@ -639,16 +705,28 @@ public class BackdoorGame {
 				super.processPacket(packet);
 			}
 		};
+		
+		boolean reconnect = true;
 		try {
+			System.out.println("Download gateway properties.");
+			Properties gateway_properties = new Properties();
+			gateway_properties.load(new URL(IsotopeStudioAPI.API_URL+"gateway.info").openStream());
 			System.out.println("Connection to gateway in process...");
-			gateway.connect("isotope-studio.fr", 18534, true);
+			Integer port =  Integer.valueOf(gateway_properties.getProperty("gateway.port."+(DEV_MODE ? "dev" : GAME_VERSION.endsWith("snapshot") ? "snapshot" : "release"))); 
+			gateway.connect("isotope-studio.fr", port, reconnect);
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 			System.err.println("The connection to the gateway failed");
+			getDesktop().spawnNotification(new Notification(getDatapack().getImage("error"), Lang.get("gateway_connection_failed_title"), Lang.get("gateway_connection_failed_message"), 10));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.err.println("The connection to the gateway failed");
+			getDesktop().spawnNotification(new Notification(getDatapack().getImage("error"), Lang.get("gateway_connection_failed_title"), Lang.get("gateway_connection_failed_message"), 10));
 		}
+		
+	}
+
+	public static void preinit() {
 	}
 
 	public static void start() {
@@ -656,12 +734,14 @@ public class BackdoorGame {
 
 		VideoSettings video_settings = VideoSettings.getSettings();
 		GameSettings game_settings = GameSettings.getSettings();
+		
+		preinit();
 
 		if (!ignoreintro) {
 			System.out.println("Loading the introductory video...");
 			introduction_video_framegrabber = new FFmpegFrameGrabber(new File(getResourcesDirectory(), "intro.mp4"));
 		}
-
+		
 		System.out.println("Creating game window...");
 		game_window.create();
 		if (video_settings.fullscreen) {

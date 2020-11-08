@@ -3,6 +3,8 @@ package isotopestudio.backdoor.engine.components;
 import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.listener.MouseClickEventListener;
+import org.liquidengine.legui.style.length.Length;
+import org.liquidengine.legui.style.length.LengthType;
 
 import isotopestudio.backdoor.engine.components.desktop.SelectBox;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
@@ -32,6 +34,12 @@ public interface IComponent {
 		}
 	}
 
+	public default void setFullPadding(Component component, float padding) {
+		component.getStyle().setPadding(padding);
+		component.getStyle().setPaddingTop(new Length<Float>(padding, LengthType.PIXEL));
+		component.getStyle().setPaddingBottom(new Length<Float>(padding, LengthType.PIXEL));
+	}
+	
     public default DataParameters getDataParameters(Component component){
     	if(component instanceof IComponent) {
     		IComponent iComponent = (IComponent) component;

@@ -1,10 +1,7 @@
 package isotopestudio.backdoor.engine.components.desktop.checkbox;
 
 import org.joml.Vector2f;
-import org.joml.Vector4f;
 import org.liquidengine.legui.icon.CharIcon;
-
-import com.sun.jna.platform.unix.X11.XClientMessageEvent.Data;
 
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;

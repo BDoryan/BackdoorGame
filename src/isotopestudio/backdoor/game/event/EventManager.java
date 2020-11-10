@@ -36,7 +36,8 @@ public class EventManager {
     }
 	
 	public static void handle(Event event) {
-        List<? extends EventListener> listeners = getListeners(event.getClass());
-		listeners.forEach((listener) -> listener.process(event));
+        List<Object> listeners = new ArrayList<>();
+        listeners.addAll(getListeners(event.getClass()));
+		listeners.forEach((listener) -> ((EventListener) listener).process(event));
 	}
 }

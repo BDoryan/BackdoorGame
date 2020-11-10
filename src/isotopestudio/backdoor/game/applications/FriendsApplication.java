@@ -1,7 +1,6 @@
 package isotopestudio.backdoor.game.applications;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,8 +27,6 @@ import org.liquidengine.legui.style.Background;
 import org.liquidengine.legui.style.Style.DisplayType;
 import org.liquidengine.legui.style.border.SimpleLineBorder;
 import org.liquidengine.legui.style.color.ColorConstants;
-import org.liquidengine.legui.style.length.Length;
-import org.liquidengine.legui.style.length.LengthType;
 import org.lwjgl.glfw.GLFW;
 
 import doryanbessiere.isotopestudio.api.friends.FriendsAPI;
@@ -38,13 +35,15 @@ import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.TextField;
-import isotopestudio.backdoor.engine.components.desktop.dialog.DialogCallback;
 import isotopestudio.backdoor.engine.components.desktop.popup.PopupMenu;
 import isotopestudio.backdoor.engine.components.desktop.scrollablepanel.ScrollablePanel;
 import isotopestudio.backdoor.engine.components.desktop.window.Window;
 import isotopestudio.backdoor.engine.components.events.LabelSizeEvent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
+import isotopestudio.backdoor.game.applications.group.GroupApplication;
+import isotopestudio.backdoor.game.manager.GroupManager;
+import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupInvite;
 
 public class FriendsApplication extends Window implements IComponent {
 
@@ -460,7 +459,6 @@ public class FriendsApplication extends Window implements IComponent {
 							@Override
 							public void process(float width, float height) {
 								popupmenu.initSize();
-
 							}
 						});
 						invite.getStyle().setPadding(10f);
@@ -469,6 +467,10 @@ public class FriendsApplication extends Window implements IComponent {
 							public void process(MouseClickEvent event) {
 								if (event.getAction() != MouseClickAction.RELEASE)
 									return;
+
+								if(GroupManager.getGroup() == null)
+									GroupApplication.showApplication();
+								GroupManager.invite(getProfile());
 
 							}
 						};

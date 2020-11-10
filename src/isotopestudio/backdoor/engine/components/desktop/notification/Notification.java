@@ -1,5 +1,6 @@
 package isotopestudio.backdoor.engine.components.desktop.notification;
 
+import org.liquidengine.legui.animation.Animation;
 import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.component.ImageView;
 import org.liquidengine.legui.component.optional.align.HorizontalAlign;
@@ -9,11 +10,15 @@ import org.liquidengine.legui.image.Image;
 import org.liquidengine.legui.listener.EventListener;
 import org.liquidengine.legui.style.Style.DisplayType;
 
+import doryanbessiere.isotopestudio.api.notification.NotificationPending;
+import doryanbessiere.isotopestudio.commons.GsonInstance;
+import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.Text;
 import isotopestudio.backdoor.engine.components.events.TextDynamicSizeChangeEvent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
+import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
  * @author BESSIERE Doryan
@@ -25,8 +30,21 @@ public class Notification extends Component implements IComponent {
 	private Text text;
 	private ImageView image_view;
 
-	private double time_left_in_second = 0D;
+	private Animation animation;
 	
+	private double time_left_in_second = 0D;
+
+	public static Notification build(NotificationPending notificationPending) {
+		System.out.println(GsonInstance.instance().toJson(notificationPending));
+		return new Notification(
+				notificationPending.getImage().startsWith("http")
+						? BackdoorGame.loadImageURL(notificationPending.getImage())
+						: BackdoorGame.getDatapack().getImage(notificationPending.getImage()), 
+						Lang.translate(notificationPending.getTitle()), 
+				Lang.translate(notificationPending.getMessage()),
+				notificationPending.getDuration());
+	}
+
 	public Notification(Image image, String title, String text) {
 		this(image, title, text, 5D);
 	}
@@ -70,69 +88,71 @@ public class Notification extends Component implements IComponent {
 
 		this.image_view.setFocusable(false);
 		this.image_view.setTabFocusable(false);
-		
-		this.text.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
-			boolean init = false;
-			@Override
-			public void process(TextDynamicSizeChangeEvent event) {
-				if(init)return;
-					init = true;
-					
-				if(image != null) {
-					float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
-					
-					int maximum_image_ratio = (int) (height - 20);
 
-					int image_height = image.getHeight() > maximum_image_ratio ? maximum_image_ratio : image.getHeight();
-					int image_width = image.getWidth() > maximum_image_ratio ? maximum_image_ratio : image.getWidth();
+		this.text.getListenerMap().addListener(TextDynamicSizeChangeEvent.class,
+				new EventListener<TextDynamicSizeChangeEvent>() {
+					boolean init = false;
 
-					image_view.getStyle().setHeight(image_height);
-					image_view.getStyle().setWidth(image_width);
-					
-					if(image.getHeight() > maximum_image_ratio) {
-						image_view.getStyle().setTop(10);	
-					} else {
-						image_view.getStyle().setTop((height / 2) - (image_height / 2));
+					@Override
+					public void process(TextDynamicSizeChangeEvent event) {
+						if (init)
+							return;
+						init = true;
+
+						if (image != null) {
+							float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
+
+							int maximum_image_ratio = (int) (height - 20);
+
+							int image_height = image.getHeight() > maximum_image_ratio ? maximum_image_ratio
+									: image.getHeight();
+							int image_width = image.getWidth() > maximum_image_ratio ? maximum_image_ratio
+									: image.getWidth();
+
+							image_view.getStyle().setHeight(image_height);
+							image_view.getStyle().setWidth(image_width);
+
+							if (image.getHeight() > maximum_image_ratio) {
+								image_view.getStyle().setTop(10);
+							} else {
+								image_view.getStyle().setTop((height / 2) - (image_height / 2));
+							}
+							image_view.getStyle().setLeft(10);
+
+							Notification.this.text.getStyle().setLeft(image_width + 20);
+							Notification.this.label_title.getStyle().setLeft(image_width + 20);
+
+							float width = event.getWidth() + (image_width) + 20;
+
+							setSize(width, height);
+						} else {
+							float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
+							float width = event.getWidth() + 20;
+							setSize(width, height);
+						}
 					}
-					image_view.getStyle().setLeft(10);
+				});
 
-					Notification.this.text.getStyle().setLeft(image_width + 20);
-					Notification.this.label_title.getStyle().setLeft(image_width + 20);
-
-					float width = event.getWidth() + (image_width) + 20;
-
-					setSize(width, height);	
-				} else {
-					float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
-					float width = event.getWidth() + 20;
-					setSize(width, height);
-				}
-			}
-		});
-		
 		/*
-		float image_width = this.getSize().y - 20;
-		if (image != null) {
+		 * float image_width = this.getSize().y - 20; if (image != null) {
+		 * 
+		 * this.image_view.getStyle().setTop(10 + (image_width / 2 - (image.getHeight()
+		 * / 2))); this.image_view.getStyle().setLeft(10+ (image_width / 2 -
+		 * (image.getWidth() / 2)));
+		 * 
+		 * this.text.getStyle().setLeft(106); this.label_title.getStyle().setLeft(106f);
+		 * 
+		 * this.setSize(400 + image_width + 20, this.getSize().y);
+		 * 
+		 * this.add(this.image_view); } else { this.setSize(400, 106); }
+		 */
 
-			this.image_view.getStyle().setTop(10 + (image_width / 2 - (image.getHeight() / 2)));
-			this.image_view.getStyle().setLeft(10+ (image_width / 2 - (image.getWidth() / 2)));
-
-			this.text.getStyle().setLeft(106);
-			this.label_title.getStyle().setLeft(106f);
-			
-			this.setSize(400 + image_width + 20, this.getSize().y);
-
+		if (image != null)
 			this.add(this.image_view);
-		} else {
-			this.setSize(400, 106);
-		}*/
-
-		if(image != null)
-		this.add(this.image_view);
 		this.add(this.label_title);
 		this.add(this.text);
 	}
-	
+
 	/**
 	 * @return the time_left_in_second
 	 */
@@ -176,6 +196,20 @@ public class Notification extends Component implements IComponent {
 	@Override
 	public String getComponentName() {
 		return "notification";
+	}
+	
+	/**
+	 * @param animation the animation to set
+	 */
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+	}
+	
+	/**
+	 * @return the animation
+	 */
+	public Animation getAnimation() {
+		return animation;
 	}
 
 	private String variable;

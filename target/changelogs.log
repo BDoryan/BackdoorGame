@@ -5,7 +5,11 @@
   "date": "2013-02-10T13:45:30+0100",
   "contents": {
     "Ajout(s)": [
-      ""
+      "Désormais vous avez le système de groupe (avec interface [BETA])",
+      "Nouveau composant : CheckBox"
+    ],
+    "Modification(s)": [
+      "Nouveau système de notification"
     ]
   }
 }

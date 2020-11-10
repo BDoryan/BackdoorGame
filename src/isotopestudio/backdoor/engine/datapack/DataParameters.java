@@ -117,6 +117,15 @@ public class DataParameters implements IDataParameters {
 		}
 		return null;
 	}
+	
+	public static Vector4f convertColor(float[] color) {
+		if(color.length == 4) {
+			return new Vector4f(color[0], color[1], color[2], color[3]);	
+		} else if(color.length == 3) {
+			return new Vector4f(color[0], color[1], color[2], 1);	
+		}
+		return null;
+	}
 
 	@Override
 	public String getString(String key) {

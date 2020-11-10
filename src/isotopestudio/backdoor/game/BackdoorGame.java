@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,6 +84,8 @@ import org.lwjgl.glfw.GLFWWindowCloseCallbackI;
 import com.google.gson.Gson;
 
 import doryanbessiere.isotopestudio.api.IsotopeStudioAPI;
+import doryanbessiere.isotopestudio.api.notification.NotificationPending;
+import doryanbessiere.isotopestudio.api.notification.NotificationPendingAPI;
 import doryanbessiere.isotopestudio.api.profile.Profile;
 import doryanbessiere.isotopestudio.api.profile.ProfileAPI;
 import doryanbessiere.isotopestudio.api.user.User;
@@ -724,6 +728,24 @@ public class BackdoorGame {
 			getDesktop().spawnNotification(new Notification(getDatapack().getImage("error"), Lang.get("gateway_connection_failed_title"), Lang.get("gateway_connection_failed_message"), 10));
 		}
 		
+		new Timer().schedule(new TimerTask() {
+			
+			private int seconds = 25;
+			
+			@Override
+			public void run() {
+				try {
+					new NotificationPendingAPI().getNotificationsPending(user.getEmail(), user.getToken()).forEach((notification) -> getDesktop().spawnNotification(Notification.build(notification)));
+				} catch (Exception e) {
+					e.printStackTrace();
+					if(seconds >= 15) {
+						getDesktop().spawnNotification(new Notification(getDatapack().getImage("warning"), Lang.get("pending_notifications_are_unrecoverable_title"), Lang.get("pending_notifications_are_unrecoverable_message"), 10));
+						seconds =0;
+					}
+				}
+				seconds++;
+			}
+		}, 0, 1000);
 	}
 
 	public static void preinit() {
@@ -812,8 +834,6 @@ public class BackdoorGame {
 		double deltaU = 0, deltaF = 0;
 		int frames = 0, ticks = 0;
 		long timer = System.currentTimeMillis();
-		
-		init();
 
 		while (!getGameWindow().shouldClose()) {
 			final double timeU = 1000000000 / game_settings.refresh_rate;
@@ -919,6 +939,8 @@ public class BackdoorGame {
 
 		frame.getContainer().add(desktop);
 		desktop.ready();
+		
+		init();
 	}
 
 	private static void reloadFramework() {

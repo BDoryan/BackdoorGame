@@ -222,6 +222,7 @@ public class Desktop extends Panel implements IComponent {
 					animation.stopAnimation();
 				}
 			});
+			notification.setAnimation(animation);
 			animation.startAnimation();
 		}
 	}

@@ -22,7 +22,6 @@ import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.SelectBox;
 import isotopestudio.backdoor.engine.components.desktop.TextField;
 import isotopestudio.backdoor.engine.components.desktop.ToggleButton;
-import isotopestudio.backdoor.engine.components.desktop.Tooltip;
 import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.VideoSettings;
@@ -34,24 +33,24 @@ import isotopestudio.backdoor.game.settings.VideoSettings;
 public class DisplaysPanel extends Panel implements IComponent {
 
 	private Label fps_limit = new Label();
-	private SelectBox<Integer> fps_limit_selector = new SelectBox<Integer>(); 
-	
+	private SelectBox<Integer> fps_limit_selector = new SelectBox<Integer>();
+
 	private Label fps_limiter = new Label();
-	private ToggleButton fps_limiter_togglebutton = new ToggleButton(); 
-	
+	private ToggleButton fps_limiter_togglebutton = new ToggleButton();
+
 	private Label antialiasing = new Label();
-	private ToggleButton antialiasing_togglebutton = new ToggleButton(); 
-	
+	private ToggleButton antialiasing_togglebutton = new ToggleButton();
+
 	private Label fullscreen = new Label();
-	private ToggleButton fullscreen_togglebutton = new ToggleButton(); 
+	private ToggleButton fullscreen_togglebutton = new ToggleButton();
 
 	private Button save_settings_button = new Button();
-	
-	private int[] fps_list = new int[] {60, 75, 144, 240, 280, 300};
+
+	private int[] fps_list = new int[] { 60, 75, 144, 240, 280, 300 };
 
 	public DisplaysPanel(SettingsApplication app) {
 		setFocusable(false);
-		
+
 		getStyle().setDisplay(DisplayType.FLEX);
 		getStyle().getBackground().setColor(0, 0, 0, 0);
 		getStyle().setBorderRadius(0f);
@@ -68,26 +67,26 @@ public class DisplaysPanel extends Panel implements IComponent {
 		fps_limit_selector.getStyle().setWidth(50);
 		fps_limit_selector.getStyle().setHeight(30);
 
-		for(int fps_limit : fps_list) {
+		for (int fps_limit : fps_list) {
 			fps_limit_selector.addElement(fps_limit);
 		}
 
 		VideoSettings settings = VideoSettings.getSettings();
-		
-		if(!fps_limit_selector.getElements().contains(settings.frames_limit)) {			
+
+		if (!fps_limit_selector.getElements().contains(settings.frames_limit)) {
 			fps_limit_selector.addElement(settings.frames_limit);
 		}
-		fps_limit_selector.setSelected((Integer)settings.frames_limit, true);
+		fps_limit_selector.setSelected((Integer) settings.frames_limit, true);
 
 		fps_limiter.setVariable(app.getComponentVariable() + "_fps_limiter");
 		fps_limiter.getStyle().setTop(70);
 		fps_limiter.getStyle().setLeft(30);
-fps_limiter.getStyle().setFontSize(15f);
+		fps_limiter.getStyle().setFontSize(15f);
 
-fps_limiter_togglebutton.setVariable(app.getComponentVariable() + "_fps_limiter_togglebutton");
-fps_limiter_togglebutton.getStyle().setTop(90);
-fps_limiter_togglebutton.getStyle().setHeight(20);
-fps_limiter_togglebutton.getStyle().setWidth(80);
+		fps_limiter_togglebutton.setVariable(app.getComponentVariable() + "_fps_limiter_togglebutton");
+		fps_limiter_togglebutton.getStyle().setTop(90);
+		fps_limiter_togglebutton.getStyle().setHeight(20);
+		fps_limiter_togglebutton.getStyle().setWidth(80);
 		fps_limiter_togglebutton.getStyle().setLeft(30);
 
 		fps_limiter_togglebutton.setToggled(settings.frames_limiter);
@@ -122,34 +121,36 @@ fps_limiter_togglebutton.getStyle().setWidth(80);
 		save_settings_button.getStyle().setRight(10f);
 		save_settings_button.getStyle().setHeight(40f);
 		save_settings_button.getStyle().setShadow(null);
-		save_settings_button.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener() {
-			@Override
-			public void process(ButtonWidthChangeEvent event) {
-				super.process(event);
-				save_settings_button.getStyle().setWidth(event.getWidth()+20);
-			}
-		});
+		save_settings_button.getListenerMap().addListener(ButtonWidthChangeEvent.class,
+				new UpdateButtonStyleWidthListener() {
+					@Override
+					public void process(ButtonWidthChangeEvent event) {
+						super.process(event);
+						save_settings_button.getStyle().setWidth(event.getWidth() + 20);
+					}
+				});
 		save_settings_button.getListenerMap().addListener(MouseClickEvent.class, new MouseClickEventListener() {
 			@Override
 			public void process(MouseClickEvent event) {
-				if(event.getAction() != MouseClickAction.RELEASE)return;
+				if (event.getAction() != MouseClickAction.RELEASE)
+					return;
 
 				VideoSettings settings = VideoSettings.getSettings();
-				settings.frames_limit = fps_limit_selector.getSelection(); 
+				settings.frames_limit = fps_limit_selector.getSelection();
 				settings.frames_limiter = fps_limiter_togglebutton.isToggled();
-				if(settings.antialiasing != antialiasing_togglebutton.isToggled()) {
+				if (settings.antialiasing != antialiasing_togglebutton.isToggled()) {
 					// require a restart for applicated antialiasing or not
 				}
 				settings.antialiasing = antialiasing_togglebutton.isToggled();
 				settings.save();
-				
-				if(settings.fullscreen != fullscreen_togglebutton.isToggled()) {
+
+				if (settings.fullscreen != fullscreen_togglebutton.isToggled()) {
 					BackdoorGame.getGameWindow().toggleFullscreen();
 				}
 				saveMessage();
 			}
 		});
-		
+
 		add(save_settings_button);
 
 		add(fps_limit);
@@ -160,10 +161,10 @@ fps_limiter_togglebutton.getStyle().setWidth(80);
 		add(antialiasing_togglebutton);
 		add(fullscreen);
 		add(fullscreen_togglebutton);
-		
+
 		load();
 	}
-	
+
 	private void saveMessage() {
 		Label save_message = new Label(Lang.get("settings_window_settings_saved"));
 		save_message.load();
@@ -172,7 +173,7 @@ fps_limiter_togglebutton.getStyle().setWidth(80);
 		save_message.getStyle().setBottom(10f);
 
 		add(save_message);
-		
+
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -189,15 +190,18 @@ fps_limiter_togglebutton.getStyle().setWidth(80);
 	public void load() {
 		fps_limit.load();
 		fps_limit.getTextState().setText(Lang.get("settings_display_fps_limit"));
-		/*fps_limit.setTooltip(new Tooltip(Lang.get("settings_display_fps_limit_tooltip")));
-		((Tooltip)fps_limit.getTooltip()).load();*/
+		/*
+		 * fps_limit.setTooltip(new
+		 * Tooltip(Lang.get("settings_display_fps_limit_tooltip")));
+		 * ((Tooltip)fps_limit.getTooltip()).load();
+		 */
 
 		fps_limiter.load();
 		fps_limiter.getTextState().setText(Lang.get("settings_display_fps_limiter"));
-		
+
 		antialiasing.load();
 		antialiasing.getTextState().setText(Lang.get("settings_display_antialiasing"));
-		
+
 		fullscreen.load();
 		fullscreen.getTextState().setText(Lang.get("settings_display_fullscreen"));
 
@@ -207,7 +211,7 @@ fps_limiter_togglebutton.getStyle().setWidth(80);
 		fps_limiter_togglebutton.load();
 		antialiasing_togglebutton.load();
 		fullscreen_togglebutton.load();
-		
+
 		fps_limit_selector.load();
 	}
 

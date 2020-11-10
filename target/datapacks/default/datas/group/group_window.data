@@ -1,2 +1,11 @@
 top_panel_background_color=rgb(30,30,30)
 bottom_panel_background_color=rgb(30,30,30)
+
+player_panel_background_color=#1E1E1E
+player_panel_background_color_hovered=#121212
+player_panel_background_color_focused=#1e1e1e
+player_panel_background_color_pressed=#1E1E1E
+
+player_status_ready=#59CE27
+player_status_unready=#c02739
+player_status_leader=#FFD800

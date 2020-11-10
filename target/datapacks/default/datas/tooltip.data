@@ -8,10 +8,10 @@ tooltip_text_font_hovered=main
 tooltip_text_font_pressed=main
 tooltip_text_font_focused=main
 
-tooltip_background_color=rgba(53, 53, 53, 120)
-tooltip_background_color_hovered=rgba(53, 53, 53, 120)
-tooltip_background_color_pressed=rgba(53, 53, 53, 120)
-tooltip_background_color_focused=rgba(53, 53, 53, 120)
+tooltip_background_color=#353535
+tooltip_background_color_hovered=#353535
+tooltip_background_color_pressed=#353535
+tooltip_background_color_focused=#353535
 
 tooltip_border_color=rgba(0,0,0,0)
 tooltip_border_color_hovered=rgba(0,0,0,0)

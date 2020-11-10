@@ -29,8 +29,14 @@ dialog_friend_do_you_really_want_to_delete_message=Êtes-vous vraiment sûr de v
 gateway_connection_restored_title=Connexion rétablie
 gateway_connection_restored_message=La connexion est désormais opérationnelle avec le serveur passerelle
 
+pending_notifications_are_unrecoverable_title=Erreur de récupération
+pending_notifications_are_unrecoverable_message=La récupération de vos notifications en attente n'a pas pu se faire suite à une erreur de notre système (https://isotope-studio.fr/support/)
+
 gateway_connection_failed_title=Erreur de connexion
 gateway_connection_failed_message=Le jeu n'a pas pu se connecter au serveur passerelle cela peut provenir d'un problème de connexion (https://isotope-studio.fr/support/)  
+
+friend_invititation_notification_title=Nouvelle demande d'ami
+friend_invititation_notification_message=Vous avez reçu une demande d'ami de %username% 
 
 dialog_gateway_disconnected_title=Vous avez été éjecté du serveur passerelle
 dialog_gateway_disconnected_authentification_failed=L'authentification au serveur passerelle n'a pas pu être faite, veuillez vérifier que vos identifiants ne sont pas obselète
@@ -66,22 +72,46 @@ party_dialog_end_party_message=Fin de la partie les gagnants sont l'équipe %tea
 
 group_leave_group=Quitter
 group_delete_group=Supprimer le groupe
-group_search_a_party=Rechercher une partie
-group_start_a_party=Démarrer une partie
+group_start_a_party=Lancer une partie
+group_search_a_party=Rechercher des parties
+group_start=Lancer
+group_ready=Prêt
+group_unready=Annuler
 group_private_party=Partie privée
 
 group_you_have_left_the_group_title=Vous avez bien réussie à quitter le groupe
 group_you_have_left_the_group_message= 
-group_you_are_not_in_any_group_title=Vous n'êtes actuellement dans aucun groupe
+
+group_you_are_not_in_any_group_title=Action impossible
 group_you_are_not_in_any_group_message=Le serveur à détecter que vous êtes dans aucun groupe (Essayer de redémarrer le jeu si le problème est inconnue)
-group_you_are_already_in_a_group_dialog_title=Vous êtes déjà dans un groupe
+
+group_you_are_already_in_a_group_dialog_title=Action impossible
 group_you_are_already_in_a_group_dialog_message=Le serveur détecte que vous êtes déjà dans un groupe ! (Essayer de redémarrer le jeu si le problème est inconnue)
-group_you_have_created_a_group_title=Vous avez créer un groupe avec succès
-group_you_have_created_a_group_message= 
-group_your_group_has_been_deleted_title=Votre groupe vient d'être supprimé par son chef
-group_your_group_has_been_deleted_message= 
+
+group_your_group_has_been_deleted_title=Suppression de votre groupe
+group_your_group_has_been_deleted_message=Le groupe dans le quel vous vous trouvez à été supprimé par son chef
+
+group_you_have_been_kicked_title=Retirer du groupe
+group_you_have_been_kicked_messsage=Le chef vous à retiré du groupe 
+
+group_player_target_disconnected_title=Le joueur ciblé n'est pas connecté
+group_player_target_disconnected_message=  
+
+group_this_group_does_not_exist_title=Ce groupe n'existe plus
+group_this_group_does_not_exist_message=Le créateur à du fermer ce groupe entre temps
+
+group_invitation_title=Invitation de groupe
+group_invitation_message=%username% vous invite dans son groupe, cliquer si vous voulez rejoindre
+
 group_you_have_been_kicked_from_the_group_title=Vous avez été éjecter du groupe
 group_you_have_been_kicked_from_the_group_message= 
+
+party_start_error_title=Erreur de démarrage
+party_start_error_message=Votre partie n'a pas pu être lancer suite à une erreur (https://isotope-studio.fr/support/)
+
+
+group_cant_start_title=Impossible de lancer
+group_a_player_is_already_in_party_message=Le groupe ne peut pas être lancé car un joueur se trouve déjà actuellement dans une partie
 
 application_network_information=Information réseau
 application_cannot_launch_title=Impossible de lancer l'application

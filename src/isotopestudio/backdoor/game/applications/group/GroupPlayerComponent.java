@@ -4,24 +4,29 @@ import org.joml.Vector4f;
 import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.component.ImageView;
 import org.liquidengine.legui.component.Panel;
+import org.liquidengine.legui.event.MouseClickEvent;
+import org.liquidengine.legui.event.MouseClickEvent.MouseClickAction;
+import org.liquidengine.legui.input.Mouse.MouseButton;
 import org.liquidengine.legui.intersection.RectangleIntersector;
+import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.style.Background;
 import org.liquidengine.legui.style.Style.DisplayType;
 import org.liquidengine.legui.style.border.SimpleLineBorder;
 import org.liquidengine.legui.style.color.ColorConstants;
 
 import doryanbessiere.isotopestudio.api.profile.Profile;
-import doryanbessiere.isotopestudio.commons.ColorConvertor;
+import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.engine.components.desktop.Label;
+import isotopestudio.backdoor.engine.components.desktop.popup.PopupMenu;
+import isotopestudio.backdoor.engine.components.events.LabelSizeEvent;
 import isotopestudio.backdoor.engine.components.painting.Line;
-import isotopestudio.backdoor.engine.components.painting.Round;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
-import isotopestudio.backdoor.utils.ColorConvert;
+import isotopestudio.backdoor.game.manager.GroupManager;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GroupPlayerComponent extends Panel {
 
@@ -29,7 +34,7 @@ public class GroupPlayerComponent extends Panel {
 
 	private ImageView profile_img = new ImageView();
 	private Label profile_name = new Label();
-	
+
 	private Line status;
 
 	public GroupPlayerComponent(GroupApplication groupApplication, Profile profile) {
@@ -72,29 +77,93 @@ public class GroupPlayerComponent extends Panel {
 		profile_img.getStyle().setShadow(null);
 		profile_img.setIntersector(new RectangleIntersector());
 		profile_img.setImage(BackdoorGame.loadImageURL(profile.getProfilePictureURL()));
-		
+
 		// ready = 59CE27
 		// unready = c02739
 		// unready = CC1E1E
-		
+
 		profile_name.setVariable(groupApplication.getComponentVariable() + "_username_label");
 		profile_name.getStyle().setTop(10);
 		profile_name.getStyle().setLeft(60);
 		profile_name.autoSizeWidth();
 
 		status = new Line(6, 0, 0, 0, 60);
-		
+
 		add(profile_img);
 		add(profile_name);
 		add(status);
-		
+
 		update();
 
 		for (Component childrenComponent : getChildComponents()) {
 			childrenComponent.setFocusable(false);
 		}
+
+		getListenerMap().addListener(MouseClickEvent.class, new MouseClickEventListener() {
+			@Override
+			public void process(MouseClickEvent event) {
+				if (event.getAction() == MouseClickAction.RELEASE && event.getButton() == MouseButton.MOUSE_BUTTON_2) {
+
+					if (!GroupManager.getGroup().getOwner().getUuidString()
+							.equals(BackdoorGame.getUser().getUUIDString()))
+						return;
+					PopupMenu popupmenu = new PopupMenu((int) event.getAbsolutePosition().x,
+							(int) event.getAbsolutePosition().y);
+					popupmenu.setVariable("group_popupmenu");
+					popupmenu.setSize(50, 10);
+					popupmenu.getStyle().setBorderRadius(0f);
+
+					Label profile = new Label(Lang.get("group_window_profile"), new LabelSizeEvent() {
+						@Override
+						public void process(float width, float height) {
+							popupmenu.initSize();
+						}
+					});
+					profile.getStyle().setPadding(10f);
+
+					MouseClickEventListener profile_click = new MouseClickEventListener() {
+						@Override
+						public void process(MouseClickEvent event) {
+							if (event.getAction() != MouseClickAction.RELEASE)
+								return;
+
+						}
+					};
+					profile.getListenerMap().addListener(MouseClickEvent.class, profile_click);
+
+					Label kick = new Label(Lang.get("group_window_kick"), new LabelSizeEvent() {
+						@Override
+						public void process(float width, float height) {
+							popupmenu.initSize();
+						}
+					});
+					kick.getStyle().setPadding(10f);
+					MouseClickEventListener kick_click = new MouseClickEventListener() {
+						@Override
+						public void process(MouseClickEvent event) {
+							if (event.getAction() != MouseClickAction.RELEASE)
+								return;
+
+							if (GroupManager.getGroup() == null)
+								GroupApplication.showApplication();
+							GroupManager.kick(getProfile().getUuidString());
+
+						}
+					};
+					kick.getListenerMap().addListener(MouseClickEvent.class, kick_click);
+
+					popupmenu.add(profile);
+					popupmenu.add(kick);
+					popupmenu.load();
+
+					popupmenu.setFocused(true);
+
+					BackdoorGame.getDesktop().add(popupmenu);
+				}
+			}
+		});
 	}
-	
+
 	/**
 	 * @return the status
 	 */

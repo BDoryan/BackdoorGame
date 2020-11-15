@@ -16,8 +16,8 @@ import demo.video.VideoPlayer;
 import doryanbessiere.isotopestudio.commons.LocalDirectory;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class TestVideoPlayer extends JPanel {
 

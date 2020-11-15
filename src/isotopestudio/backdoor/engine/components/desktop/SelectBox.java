@@ -6,8 +6,8 @@ import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class SelectBox<T> extends org.liquidengine.legui.component.SelectBox<T> implements IComponent {
 
@@ -196,5 +196,15 @@ public class SelectBox<T> extends org.liquidengine.legui.component.SelectBox<T> 
 	@Override
 	public String getComponentVariable() {
 		return variable;
+	}
+
+	/**
+	 * 
+	 */
+	public void clearElements() {
+		if(getElements().size() == 0)return;
+		for(int i = getElements().size() - 1; i >= 0; i--) {
+			removeElement(i);
+		}
 	}
 }

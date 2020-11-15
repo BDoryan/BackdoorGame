@@ -17,8 +17,8 @@ import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class TaskBarWindowIcon extends Component implements IComponent {
 

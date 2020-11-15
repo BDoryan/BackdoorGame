@@ -1,8 +1,8 @@
 package isotopestudio.backdoor.engine.components.desktop.dialog;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public abstract class DialogCallback {
 

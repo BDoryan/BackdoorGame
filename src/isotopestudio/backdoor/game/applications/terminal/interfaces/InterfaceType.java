@@ -1,8 +1,8 @@
 package isotopestudio.backdoor.game.applications.terminal.interfaces;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public enum InterfaceType {
 

@@ -6,8 +6,8 @@ import isotopestudio.backdoor.game.command.ICommand;
 import isotopestudio.backdoor.game.server.ServerMaker;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GameServerCommand implements ICommand {
 	

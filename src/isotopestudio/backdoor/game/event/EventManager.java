@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import isotopestudio.backdoor.game.event.events.GroupMessageEvent;
 import isotopestudio.backdoor.game.event.events.GroupUpdateEvent;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class EventManager {
 	
@@ -17,6 +18,7 @@ public class EventManager {
 	
 	static {
 		listeners.put(GroupUpdateEvent.class, new ArrayList<>());
+		listeners.put(GroupMessageEvent.class, new ArrayList<>());
 	}
 
 	public static <E extends Event> void addListener(Class<E> event, EventListener<E> listener) {
@@ -35,7 +37,7 @@ public class EventManager {
         return eventListeners;
     }
 	
-	public static void handle(Event event) {
+	public static void push(Event event) {
         List<Object> listeners = new ArrayList<>();
         listeners.addAll(getListeners(event.getClass()));
 		listeners.forEach((listener) -> ((EventListener) listener).process(event));

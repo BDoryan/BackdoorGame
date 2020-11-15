@@ -5,8 +5,8 @@ import java.nio.ByteBuffer;
 import org.liquidengine.legui.image.BufferedImageRGBA;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class VideoPlayer {
 	

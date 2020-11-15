@@ -21,8 +21,8 @@ import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class Notification extends Component implements IComponent {
 
@@ -89,6 +89,7 @@ public class Notification extends Component implements IComponent {
 		this.image_view.setFocusable(false);
 		this.image_view.setTabFocusable(false);
 
+		this.text.keepRendering(true);
 		this.text.getListenerMap().addListener(TextDynamicSizeChangeEvent.class,
 				new EventListener<TextDynamicSizeChangeEvent>() {
 					boolean init = false;
@@ -100,7 +101,7 @@ public class Notification extends Component implements IComponent {
 						init = true;
 
 						if (image != null) {
-							float height = event.getHeight() + (float) label_title.getStyle().getTop().get() + 20;
+							float height = event.getHeight() + 40f;
 
 							int maximum_image_ratio = (int) (height - 20);
 

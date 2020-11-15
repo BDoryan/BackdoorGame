@@ -7,8 +7,8 @@ import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.VideoSettings;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class SettingsCommand implements ICommand {
 

@@ -43,6 +43,7 @@ import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.applications.group.GroupApplication;
 import isotopestudio.backdoor.game.manager.GroupManager;
+import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupAccept;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupInvite;
 
 public class FriendsApplication extends Window implements IComponent {
@@ -493,6 +494,24 @@ public class FriendsApplication extends Window implements IComponent {
 						};
 						message.getListenerMap().addListener(MouseClickEvent.class, message_click);
 
+						Label join = new Label(Lang.get("friends_window_join"), new LabelSizeEvent() {
+							@Override
+							public void process(float width, float height) {
+								popupmenu.initSize();
+							}
+						});
+						join.getStyle().setPadding(10f);
+						MouseClickEventListener join_click = new MouseClickEventListener() {
+							@Override
+							public void process(MouseClickEvent event) {
+								if (event.getAction() != MouseClickAction.RELEASE)
+									return;
+
+								BackdoorGame.getGateway().sendPacket(new PacketGroupAccept(getProfile().getUuidString()));
+							}
+						};
+						join.getListenerMap().addListener(MouseClickEvent.class, join_click);
+
 						Label delete = new Label(Lang.get("friends_window_delete"), new LabelSizeEvent() {
 							@Override
 							public void process(float width, float height) {
@@ -534,12 +553,18 @@ public class FriendsApplication extends Window implements IComponent {
 
 						profile.setVariable("friends_popupmenu_profile");
 						invite.setVariable("friends_popupmenu_invite");
-						message.setVariable("friends_popupmenu_message");
+						invite.setVariable("friends_popupmenu_invite");
+						join.setVariable("friends_popupmenu_join");
 						delete.setVariable("friends_popupmenu_delete");
 
 						popupmenu.add(profile);
-						popupmenu.add(invite);
-						popupmenu.add(message);
+						if(BackdoorGame.group_invitations.contains(getProfile().getUuidString())) {
+							popupmenu.add(join);
+						}
+						if(FriendComponent.this.profile.isOnline()) {
+							popupmenu.add(invite);
+							popupmenu.add(message);	
+						}
 						popupmenu.add(delete);
 						popupmenu.load();
 

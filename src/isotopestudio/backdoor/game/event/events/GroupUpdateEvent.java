@@ -4,8 +4,8 @@ import isotopestudio.backdoor.game.event.Event;
 import isotopestudio.backdoor.gateway.group.GroupObject;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GroupUpdateEvent extends Event {
 	

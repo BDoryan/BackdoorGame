@@ -12,8 +12,8 @@ import isotopestudio.backdoor.gateway.GatewayClient;
 import isotopestudio.backdoor.gateway.packet.Packet;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class PacketGroupInvite extends Packet {
 
@@ -40,11 +40,13 @@ public class PacketGroupInvite extends Packet {
 
 	@Override
 	public void process(GatewayClient client) {
+		BackdoorGame.group_invitations.add(player.getUuidString());
 		Notification notification = new Notification(BackdoorGame.getDatapack().getImage("group_invitation"), Lang.get("group_invitation_title"), Lang.get("group_invitation_message", "%username%", player.getUsername()));
 		notification.getListenerMap().addListener(MouseClickEvent.class, new EventListener<MouseClickEvent>() {
 			@Override
 			public void process(MouseClickEvent event) {
 				if(event.getAction() != MouseClickAction.RELEASE)return;
+
 				client.sendPacket(new PacketGroupAccept(player.getUuidString()));
 			}
 		});

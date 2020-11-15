@@ -26,8 +26,8 @@ import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class InformationsPanel extends Panel implements IComponent {
 

@@ -8,22 +8,23 @@ import isotopestudio.backdoor.game.applications.group.GroupApplication;
 import isotopestudio.backdoor.game.event.EventManager;
 import isotopestudio.backdoor.game.event.events.GroupUpdateEvent;
 import isotopestudio.backdoor.gateway.group.GroupObject;
+import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupCancel;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupCreate;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupDelete;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupInvite;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupKick;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupLeave;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupReady;
+import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupSet;
 import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupStart;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GroupManager {
 	
 	private static GroupObject group;
-	public static boolean privateParty = false;
 
 	public static void kick(String playerUUID) {
 		BackdoorGame.getGateway().sendPacket(new PacketGroupKick(playerUUID));		
@@ -48,8 +49,8 @@ public class GroupManager {
 		BackdoorGame.getGateway().sendPacket(new PacketGroupInvite(profile));		
 	}
 
-	public static void start(Versus versus, GameMode gameMode) {
-		BackdoorGame.getGateway().sendPacket(new PacketGroupStart(versus, gameMode));		
+	public static void start() {
+		BackdoorGame.getGateway().sendPacket(new PacketGroupStart());		
 	}
 
 	public static void ready() {
@@ -60,10 +61,18 @@ public class GroupManager {
 		BackdoorGame.getGateway().sendPacket(new PacketGroupReady(false));
 	}
 
-	public static void search() {
+	/**
+	 * @param checked
+	 * @param fromString
+	 * @param fromString2
+	 * @return
+	 */
+	public static void set(boolean isPrivate, GameMode gameMode, Versus versus) {
+		BackdoorGame.getGateway().sendPacket(new PacketGroupSet(gameMode, versus, isPrivate));
 	}
 
 	public static void unsearch() {
+		BackdoorGame.getGateway().sendPacket(new PacketGroupCancel());
 	}
 	
 	/**
@@ -77,13 +86,9 @@ public class GroupManager {
 	 * @param group the group to set
 	 */
 	public static void setGroup(GroupObject group) {
-		if(GroupManager.group != null && group == null) {
-			privateParty = false;
-		} 
-		
 		boolean isNewGroup = GroupManager.group == null && group != null;
-		
-		EventManager.handle(new GroupUpdateEvent(group));
+
+		EventManager.push(new GroupUpdateEvent(group));
 		GroupManager.group = group;
 		
 		if(isNewGroup) {

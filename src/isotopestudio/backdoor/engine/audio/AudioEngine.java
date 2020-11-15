@@ -3,15 +3,12 @@ package isotopestudio.backdoor.engine.audio;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.bytedeco.opencv.opencv_core.float16_t;
-
-import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.settings.AudioSettings;
 import isotopestudio.backdoor.utils.OggClip;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class AudioEngine {
 	

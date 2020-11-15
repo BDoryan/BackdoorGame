@@ -14,8 +14,8 @@ import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.command.ICommand;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ScrollablePanel extends org.liquidengine.legui.component.ScrollablePanel implements IComponent {
 

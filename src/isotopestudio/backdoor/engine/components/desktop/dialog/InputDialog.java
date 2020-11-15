@@ -1,10 +1,8 @@
 package isotopestudio.backdoor.engine.components.desktop.dialog;
 
 import org.liquidengine.legui.component.event.button.ButtonWidthChangeEvent;
-import org.liquidengine.legui.component.event.label.LabelContentChangeEvent;
-import org.liquidengine.legui.component.event.label.LabelContentChangeEventListener;
-import org.liquidengine.legui.component.event.textarea.TextAreaFieldContentChangeEvent;
-import org.liquidengine.legui.component.event.textarea.TextAreaFieldContentChangeEventListener;
+import org.liquidengine.legui.component.event.label.LabelWidthChangeEvent;
+import org.liquidengine.legui.component.event.label.LabelWidthChangeEventListener;
 import org.liquidengine.legui.component.misc.listener.button.UpdateButtonStyleWidthListener;
 import org.liquidengine.legui.component.misc.listener.button.UpdateButtonWidthListener;
 import org.liquidengine.legui.event.MouseClickEvent;
@@ -18,8 +16,8 @@ import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.TextField;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class InputDialog extends Dialog {
 
@@ -48,12 +46,12 @@ public class InputDialog extends Dialog {
 		questionLabel.getStyle().setTop(10f);
 		questionLabel.getStyle().setWidth(200);
 		questionLabel.getStyle().setHeight(20);
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
+		questionLabel.getListenerMap().addListener(LabelWidthChangeEvent.class,
 				e -> questionLabel.getStyle().setMinWidth(questionLabel.getTextState().getTextWidth() + 20f));
-		questionLabel.getListenerMap().addListener(LabelContentChangeEvent.class,
-				new LabelContentChangeEventListener() {
+		questionLabel.getListenerMap().addListener(LabelWidthChangeEvent.class,
+				new LabelWidthChangeEventListener() {
 					@Override
-					public void process(LabelContentChangeEvent event) {
+					public void process(LabelWidthChangeEvent event) {
 						setSize(questionLabel.getTextState().getTextWidth() + 20, getSize().y);
 						centerLocation();
 					}

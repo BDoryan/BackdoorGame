@@ -16,6 +16,7 @@ import isotopestudio.backdoor.game.command.commands.KeyboardCommand;
 import isotopestudio.backdoor.game.command.commands.ListenPacketsCommand;
 import isotopestudio.backdoor.game.command.commands.MapCreatorCommand;
 import isotopestudio.backdoor.game.command.commands.MatchmakingCommand;
+import isotopestudio.backdoor.game.command.commands.PluginsCommand;
 import isotopestudio.backdoor.game.command.commands.RunIntroCommand;
 import isotopestudio.backdoor.game.command.commands.SettingsCommand;
 
@@ -37,7 +38,8 @@ public interface ICommand {
 			new ListenPacketsCommand(),
 			new FriendsCommand(),
 			new GameServerCommand(),
-			new RunIntroCommand()
+			new RunIntroCommand(), 
+			new PluginsCommand()
 	};
 
 	public abstract void handle(String[] args);

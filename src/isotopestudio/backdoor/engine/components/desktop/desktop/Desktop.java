@@ -22,6 +22,7 @@ import org.liquidengine.legui.style.Background;
 import org.liquidengine.legui.style.Style.DisplayType;
 
 import doryanbessiere.isotopestudio.commons.lang.Lang;
+import isotopestudio.backdoor.engine.audio.AudioEngine;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Button;
 import isotopestudio.backdoor.engine.components.desktop.Text;
@@ -184,6 +185,8 @@ public class Desktop extends Panel implements IComponent {
 					notification.setPosition(notification.getPosition().x,
 							notification.getParent().getSize().y - notification.getSize().y);
 					responsive.applyResponsive();
+
+					AudioEngine.playSound(BackdoorGame.getDatapack().getAudio("notification_received"));
 				}
 
 				private double time_left = -1D;

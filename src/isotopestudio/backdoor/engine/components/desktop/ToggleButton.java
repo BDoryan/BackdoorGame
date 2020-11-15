@@ -10,8 +10,8 @@ import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ToggleButton extends org.liquidengine.legui.component.Component implements IComponent {
 

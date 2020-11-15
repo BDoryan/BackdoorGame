@@ -12,8 +12,8 @@ import com.google.gson.JsonSyntaxException;
 import doryanbessiere.isotopestudio.commons.GsonInstance;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class Settings {
 

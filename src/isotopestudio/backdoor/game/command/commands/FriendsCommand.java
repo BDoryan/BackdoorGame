@@ -11,8 +11,8 @@ import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.command.ICommand;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class FriendsCommand implements ICommand {
 

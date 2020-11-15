@@ -6,8 +6,8 @@ import isotopestudio.backdoor.engine.components.listeners.TooltipAutoSize;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class Tooltip extends org.liquidengine.legui.component.Tooltip implements IComponent {
 

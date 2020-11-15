@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import isotopestudio.backdoor.utils.OggClip;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class VideoPlayer {
 

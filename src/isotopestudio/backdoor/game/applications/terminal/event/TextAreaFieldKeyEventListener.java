@@ -20,8 +20,8 @@ import static org.liquidengine.legui.util.TextUtil.findNextWord;
 import static org.liquidengine.legui.util.TextUtil.findPrevWord;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 /**
  * Key event listener. Used to provide some text operations by keyboard.

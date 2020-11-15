@@ -5,8 +5,8 @@ import java.io.Reader;
 import doryanbessiere.isotopestudio.commons.GsonInstance;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class DatapackObject {
 	

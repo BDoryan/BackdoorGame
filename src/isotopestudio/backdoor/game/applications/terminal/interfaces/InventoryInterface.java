@@ -15,8 +15,8 @@ import isotopestudio.backdoor.network.packet.packets.PacketPlayerExecScript;
 import isotopestudio.backdoor.utils.ConsoleWriter;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class InventoryInterface extends Interface {
 

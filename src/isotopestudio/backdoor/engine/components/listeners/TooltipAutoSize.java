@@ -5,8 +5,8 @@ import org.liquidengine.legui.listener.EventListener;
 import isotopestudio.backdoor.engine.components.events.TooltipSizeEvent;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class TooltipAutoSize implements EventListener<TooltipSizeEvent>{
 

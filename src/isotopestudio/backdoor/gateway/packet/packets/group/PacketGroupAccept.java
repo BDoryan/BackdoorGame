@@ -7,8 +7,8 @@ import isotopestudio.backdoor.gateway.GatewayClient;
 import isotopestudio.backdoor.gateway.packet.Packet;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class PacketGroupAccept extends Packet {
 

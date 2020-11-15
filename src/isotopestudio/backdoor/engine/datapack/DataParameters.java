@@ -21,8 +21,8 @@ import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class DataParameters implements IDataParameters {
 

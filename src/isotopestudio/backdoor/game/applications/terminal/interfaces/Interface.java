@@ -5,8 +5,8 @@ import java.util.HashMap;
 import isotopestudio.backdoor.game.applications.terminal.TerminalApplication;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public abstract class Interface {
 

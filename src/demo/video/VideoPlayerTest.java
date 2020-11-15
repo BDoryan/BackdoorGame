@@ -15,8 +15,8 @@ import isotopestudio.backdoor.utils.OggClip;
 import isotopestudio.backdoor.utils.OggClip.InternalException;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class VideoPlayerTest extends OggClip {
 

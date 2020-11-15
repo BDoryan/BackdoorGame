@@ -4,8 +4,8 @@ import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.style.color.ColorConstants;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class LeguiTools {
 

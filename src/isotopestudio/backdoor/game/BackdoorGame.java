@@ -97,6 +97,9 @@ import doryanbessiere.isotopestudio.commons.Toolkit;
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import doryanbessiere.isotopestudio.commons.logger.Logger;
 import doryanbessiere.isotopestudio.commons.logger.file.LoggerFile;
+import isotopestudio.backdoor.addons.AddonLoader;
+import isotopestudio.backdoor.core.gamemode.GameMode;
+import isotopestudio.backdoor.core.versus.Versus;
 import isotopestudio.backdoor.engine.components.desktop.Button;
 import isotopestudio.backdoor.engine.components.desktop.Text;
 import isotopestudio.backdoor.engine.components.desktop.desktop.Desktop;
@@ -120,6 +123,7 @@ import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.SettingsManager;
 import isotopestudio.backdoor.game.settings.VideoSettings;
 import isotopestudio.backdoor.gateway.GatewayClient;
+import isotopestudio.backdoor.gateway.group.GroupObject;
 import isotopestudio.backdoor.gateway.packet.Packet;
 import isotopestudio.backdoor.gateway.packet.packets.PacketClientDisconnected;
 import isotopestudio.backdoor.network.client.GameClient;
@@ -145,7 +149,8 @@ public class BackdoorGame {
 	public static Desktop desktop;
 	public static DebugApplication debugApplication = null;
 	public static JavaTerminalApplication java_terminal;
-
+	public static AddonLoader addonLoader;
+	
 	// GAME NETWORKING
 	
 	public static GameParty game_party;
@@ -162,6 +167,8 @@ public class BackdoorGame {
 
 	public static OpenCVFrameConverter converter;
 
+	public static ArrayList<String> group_invitations = new ArrayList<>();
+	
 	public static OpenCVFrameConverter getConverter() {
 		return converter;
 	}
@@ -169,7 +176,7 @@ public class BackdoorGame {
 	public static void main(String[] args) {
 		RunnerUtils arguments = new RunnerUtils(args);
 		arguments.read();
-
+		
 		if(arguments.contains("devmode"))
 			DEV_MODE = arguments.getBoolean("devmode");
 		
@@ -231,7 +238,8 @@ public class BackdoorGame {
 				if(GameServerCommand.server != null) {
 					GameServerCommand.server.close();
 				}
-				
+
+				addonLoader.stopAddons();
 				gateway.disconnect("game_close");
 				 
 				try {
@@ -280,6 +288,21 @@ public class BackdoorGame {
 
 		load();
 		System.out.println("All game files are loaded!");
+		
+		System.out.println("Loading Addons...");
+		File Addons_directory = new File(localDirectory(), "addons");
+		if(Addons_directory.exists()) {
+			addonLoader = new AddonLoader(Addons_directory.listFiles());	
+		} else {
+			Addons_directory.mkdirs();
+			addonLoader = new AddonLoader(Addons_directory.listFiles());	
+		}
+		try {
+			addonLoader.loadAddons();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			System.err.println("A plugin could not be loaded!");
+		}
 		
 		System.out.println("Game launch!");
 		ConsoleWriter writer = new ConsoleWriter();
@@ -649,64 +672,77 @@ public class BackdoorGame {
 			}
 			
 			@Override
+			public void disconnect(String reason) {
+				if (reason.equalsIgnoreCase("connection_lost")) {
+					getDesktop().spawnNotification(new Notification(getDatapack().getImage("warning"), Lang.get("gateway_notification_connection_lost_title"), Lang.get("gateway_notification_connection_lost_message"), 7));
+				}
+				super.disconnect(reason);
+			}
+			
+			@Override
 			public void processPacket(Packet packet) {
-				if(packet.getId() == Packet.CLIENT_DISCONNECTED) {
-					PacketClientDisconnected packetDisconnected = (PacketClientDisconnected) packet;
-					if(packetDisconnected.getType() == PacketClientDisconnected.KICKED) {
-						if(packetDisconnected.getReason().equals("user_already_connected")){
-							frame.getContainer().remove(getDesktop());
-							int width = 600;
-							Dialog dialog = new Dialog(Lang.get("dialog_gateway_disconnected_title"), frame.getContainer().getSize().x < width ? frame.getContainer().getSize().x - 20 : width, 50);
-							dialog.getStyle().setMinWidth(dialog.getSize().x);
-							dialog.getStyle().setMinHeight(dialog.getSize().y);
-							
-							dialog.getContainer().getStyle().setDisplay(DisplayType.FLEX);
+				if(packet instanceof PacketClientDisconnected) {
+					PacketClientDisconnected packetClientDisconnected = (PacketClientDisconnected) packet;
+					
+					String reason = packetClientDisconnected.getReason();
+					if(reason.equals("user_already_connected")){
+						frame.getContainer().remove(getDesktop());
+						int width = 600;
+						Dialog dialog = new Dialog(Lang.get("dialog_gateway_disconnected_title"), frame.getContainer().getSize().x < width ? frame.getContainer().getSize().x - 20 : width, 50);
+						dialog.getStyle().setMinWidth(dialog.getSize().x);
+						dialog.getStyle().setMinHeight(dialog.getSize().y);
+						
+						dialog.getContainer().getStyle().setDisplay(DisplayType.FLEX);
 
-							Text questionLabel = new Text(Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()));
-							questionLabel.getStyle().setLeft(10f);
-							questionLabel.getStyle().setTop(10f);
-							questionLabel.getStyle().setRight(10f);
-							questionLabel.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
-								@Override
-								public void process(TextDynamicSizeChangeEvent event) {
-									dialog.getSize().set(dialog.getSize().x, event.getHeight() + 50);
-								}
-							});
+						Text questionLabel = new Text(Lang.get("dialog_gateway_disconnected_"+reason));
+						questionLabel.getStyle().setLeft(10f);
+						questionLabel.getStyle().setTop(10f);
+						questionLabel.getStyle().setRight(10f);
+						questionLabel.getListenerMap().addListener(TextDynamicSizeChangeEvent.class, new EventListener<TextDynamicSizeChangeEvent>() {
+							@Override
+							public void process(TextDynamicSizeChangeEvent event) {
+								dialog.getSize().set(dialog.getSize().x, event.getHeight() + 50);
+							}
+						});
 
-							Button okButton = new Button(Lang.get("message_ok"));
-							okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener() {
-								@Override
-								public void process(ButtonWidthChangeEvent event) {
-									okButton.getStyle().setWidth(event.getWidth() + 20);
-								}
-							});
+						Button okButton = new Button(Lang.get("message_ok"));
+						okButton.getListenerMap().addListener(ButtonWidthChangeEvent.class, new UpdateButtonStyleWidthListener() {
+							@Override
+							public void process(ButtonWidthChangeEvent event) {
+								okButton.getStyle().setWidth(event.getWidth() + 20);
+							}
+						});
 
-							okButton.getListenerMap().addListener(MouseClickEvent.class, (MouseClickEventListener) e -> {
-								if (CLICK == e.getAction()) {
-									dialog.close();
-									BackdoorGame.stop();
-								}
-							});
+						okButton.getListenerMap().addListener(MouseClickEvent.class, (MouseClickEventListener) e -> {
+							if (CLICK == e.getAction()) {
+								dialog.close();
+								BackdoorGame.stop();
+							}
+						});
 
-							okButton.getStyle().setLeft(10f);
-							okButton.getStyle().setBottom(10f);
-							okButton.getStyle().setHeight(20);
+						okButton.getStyle().setLeft(10f);
+						okButton.getStyle().setBottom(10f);
+						okButton.getStyle().setHeight(20);
 
-							dialog.getContainer().add(questionLabel);
-							dialog.getContainer().add(okButton);
+						dialog.getContainer().add(questionLabel);
+						dialog.getContainer().add(okButton);
 
-							dialog.load();
-							questionLabel.load();
-							okButton.load();
+						dialog.load();
+						questionLabel.load();
+						okButton.load();
 
-							dialog.show(BackdoorGame.frame);
-						} else {
-							getDesktop().dialog(Lang.get("dialog_gateway_disconnected_title"), Lang.get("dialog_gateway_disconnected_"+packetDisconnected.getReason()));
-						}
+						dialog.show(BackdoorGame.frame);
+					} else {
+						getDesktop().dialog(Lang.get("dialog_gateway_disconnected_title"), Lang.get("dialog_gateway_disconnected_"+reason));
 					}
-					return;
 				}
 				super.processPacket(packet);
+			}
+			
+			@Override
+			public void readPacketError(String reason) {
+				getDesktop().spawnNotification(new Notification(getDatapack().getImage("error"), Lang.get("packet_notification_error_title"), Lang.get(reason), 7));
+				super.readPacketError(reason);
 			}
 		};
 		
@@ -939,6 +975,8 @@ public class BackdoorGame {
 
 		frame.getContainer().add(desktop);
 		desktop.ready();
+
+		addonLoader.startAddons();
 		
 		init();
 	}
@@ -1001,6 +1039,13 @@ public class BackdoorGame {
 			System.err.println("Failure to connect the server!");
 		}
 		return -1;
+	}
+
+	/**
+	 * @return the pluginLoader
+	 */
+	public static AddonLoader getPluginLoader() {
+		return addonLoader;
 	}
 
 	public static DatapackLoader getDatapack() {

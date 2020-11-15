@@ -10,8 +10,8 @@ import com.google.gson.JsonSyntaxException;
 import doryanbessiere.isotopestudio.commons.LocalDirectory;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GameSettings extends Settings {
 

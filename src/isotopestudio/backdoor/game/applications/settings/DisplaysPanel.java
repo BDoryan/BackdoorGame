@@ -27,8 +27,8 @@ import isotopestudio.backdoor.game.settings.GameSettings;
 import isotopestudio.backdoor.game.settings.VideoSettings;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class DisplaysPanel extends Panel implements IComponent {
 

@@ -14,8 +14,8 @@ import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.datapack.DataParameters;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class PopupMenu extends Panel implements IComponent {
 

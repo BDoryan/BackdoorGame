@@ -7,8 +7,8 @@ import org.liquidengine.legui.system.context.Context;
 import isotopestudio.backdoor.engine.components.desktop.tooltip.Tooltip;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class TooltipSizeEvent extends Event<Tooltip>{
 

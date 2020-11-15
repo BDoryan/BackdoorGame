@@ -31,8 +31,8 @@ import isotopestudio.backdoor.game.datapack.DatapackManager;
 import isotopestudio.backdoor.game.settings.GameSettings;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ThemesPanel extends Panel implements IComponent {
 

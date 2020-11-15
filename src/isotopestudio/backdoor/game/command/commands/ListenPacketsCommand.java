@@ -6,8 +6,8 @@ import isotopestudio.backdoor.network.packet.Packet;
 import isotopestudio.backdoor.network.packet.PacketListener;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ListenPacketsCommand implements ICommand {
 

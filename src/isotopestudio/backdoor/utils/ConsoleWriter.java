@@ -3,8 +3,8 @@ package isotopestudio.backdoor.utils;
 import org.joml.Vector4i;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ConsoleWriter {
 

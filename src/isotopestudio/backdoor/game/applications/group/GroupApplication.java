@@ -6,19 +6,20 @@ import org.liquidengine.legui.component.Component;
 import org.liquidengine.legui.component.Panel;
 import org.liquidengine.legui.component.event.button.ButtonWidthChangeEvent;
 import org.liquidengine.legui.component.event.checkbox.CheckBoxChangeValueEvent;
-import org.liquidengine.legui.component.event.checkbox.CheckBoxChangeValueEventListener;
+import org.liquidengine.legui.component.event.label.LabelWidthChangeEvent;
+import org.liquidengine.legui.component.event.selectbox.SelectBoxChangeSelectionEvent;
 import org.liquidengine.legui.event.MouseClickEvent;
 import org.liquidengine.legui.event.MouseClickEvent.MouseClickAction;
 import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.style.Style.DisplayType;
 
 import doryanbessiere.isotopestudio.api.profile.Profile;
-import doryanbessiere.isotopestudio.commons.ColorConvertor;
 import doryanbessiere.isotopestudio.commons.lang.Lang;
 import isotopestudio.backdoor.core.gamemode.GameMode;
 import isotopestudio.backdoor.core.versus.Versus;
 import isotopestudio.backdoor.engine.components.IComponent;
 import isotopestudio.backdoor.engine.components.desktop.Button;
+import isotopestudio.backdoor.engine.components.desktop.Label;
 import isotopestudio.backdoor.engine.components.desktop.SelectBox;
 import isotopestudio.backdoor.engine.components.desktop.checkbox.CheckBox;
 import isotopestudio.backdoor.engine.components.desktop.scrollablepanel.ScrollablePanel;
@@ -28,12 +29,10 @@ import isotopestudio.backdoor.engine.datapack.DataParameters;
 import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.event.EventListener;
 import isotopestudio.backdoor.game.event.EventManager;
+import isotopestudio.backdoor.game.event.events.GroupMessageEvent;
 import isotopestudio.backdoor.game.event.events.GroupUpdateEvent;
 import isotopestudio.backdoor.game.manager.GroupManager;
 import isotopestudio.backdoor.gateway.group.GroupObject;
-import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupChangePrivate;
-import isotopestudio.backdoor.gateway.packet.packets.group.PacketGroupCreate;
-import isotopestudio.backdoor.utils.ColorConvert;
 
 public class GroupApplication extends Window implements IComponent {
 
@@ -63,7 +62,7 @@ public class GroupApplication extends Window implements IComponent {
 		}
 	}
 
-	private EventListener<GroupUpdateEvent> listener = new EventListener<GroupUpdateEvent>() {
+	private EventListener<GroupUpdateEvent> groupUpdateListener = new EventListener<GroupUpdateEvent>() {
 		@Override
 		public void process(GroupUpdateEvent event) {
 			if (event.getGroupObject() == null) {
@@ -81,6 +80,21 @@ public class GroupApplication extends Window implements IComponent {
 		}
 	};
 
+	private EventListener<GroupMessageEvent> groupMessageListener = new EventListener<GroupMessageEvent>() {
+		@Override
+		public void process(GroupMessageEvent event) {
+			if (event.getMessage() == null || event.getMessage().isEmpty()) {
+				message_label.setVariable("");
+				message_label.getTextState().setText("");
+			} else {
+				message_label.setVariable("group_message_" + event.getType());
+				message_label.getTextState().setText(Lang.translate(event.getMessage()));
+			}
+			message_label.load();
+			System.out.println("message update");
+		}
+	};
+
 	private SelectBox<String> gamemodes = new SelectBox<>();
 	private SelectBox<String> versus = new SelectBox<>();
 
@@ -94,20 +108,13 @@ public class GroupApplication extends Window implements IComponent {
 
 	private ScrollablePanel players_panel = new ScrollablePanel();
 
+	private Label message_label = new Label("");
+
 	int players_list_off_y = 0;
 
 	public GroupApplication() {
 		super("Group", 0, 0, 400, 500);
 		setVariable("group_window");
-
-		EventManager.addListener(GroupUpdateEvent.class, listener);
-
-		for (GameMode gameMode : GameMode.values())
-			gamemodes.addElement(
-					gameMode.toString().substring(0, 1).toUpperCase() + gameMode.toString().substring(1).toLowerCase());
-
-		for (Versus vs : Versus.values())
-			versus.addElement(vs.getText());
 
 		getContainer().getStyle().setDisplay(DisplayType.FLEX);
 
@@ -176,10 +183,12 @@ public class GroupApplication extends Window implements IComponent {
 		leave_button.getListenerMap().addListener(MouseClickEvent.class, new MouseClickEventListener() {
 			@Override
 			public void process(MouseClickEvent event) {
-				if(event.getAction() != MouseClickAction.RELEASE)return;
-				
-				boolean youAreOwner = GroupManager.getGroup().getOwner().getUuidString().equals(BackdoorGame.getUser().getUUIDString());
-				if(youAreOwner) {
+				if (event.getAction() != MouseClickAction.RELEASE)
+					return;
+
+				boolean youAreOwner = GroupManager.getGroup().getOwner().getUuidString()
+						.equals(BackdoorGame.getUser().getUUIDString());
+				if (youAreOwner) {
 					GroupManager.delete();
 				} else {
 					GroupManager.leave();
@@ -195,13 +204,7 @@ public class GroupApplication extends Window implements IComponent {
 		private_checkbox.getStyle().setFocusedStrokeColor(0, 0, 0, 0);
 		private_checkbox.getIconChecked().setSize(new Vector2f(20, 20));
 		private_checkbox.getIconUnchecked().setSize(new Vector2f(20, 20));
-		private_checkbox.getListenerMap().addListener(CheckBoxChangeValueEvent.class,
-				new CheckBoxChangeValueEventListener() {
-					@Override
-					public void process(CheckBoxChangeValueEvent event) {
-						BackdoorGame.getGateway().sendPacket(new PacketGroupChangePrivate(event.getNewValue()));
-					}
-				});
+		private_checkbox.getListenerMap().addListener(CheckBoxChangeValueEvent.class, (event) -> setValueToGroup());
 
 		private_checkbox.getListenerMap().addListener(CheckBoxSizeEvent.class,
 				new org.liquidengine.legui.listener.EventListener<CheckBoxSizeEvent>() {
@@ -221,11 +224,19 @@ public class GroupApplication extends Window implements IComponent {
 		start_button.getListenerMap().addListener(MouseClickEvent.class, new MouseClickEventListener() {
 			@Override
 			public void process(MouseClickEvent event) {
-				if(event.getAction() != MouseClickAction.RELEASE)return;
+				if (event.getAction() != MouseClickAction.RELEASE)
+					return;
+				if (!event.getTargetComponent().isEnabled())
+					return;
+
 				boolean youAreOwner = GroupManager.getGroup().getOwner().getUuidString()
 						.equals(BackdoorGame.getUser().getUUIDString());
 				if (youAreOwner) {
-					GroupManager.start(Versus.fromString(versus.getSelection()), GameMode.fromString(gamemodes.getSelection()));
+					if(GroupManager.getGroup().isInQueue()) {
+						GroupManager.unsearch();
+					} else {
+						GroupManager.start();	
+					}
 				} else {
 					if (GroupManager.getGroup().isReady(BackdoorGame.getUser().getUUIDString())) {
 						GroupManager.unready();
@@ -249,10 +260,21 @@ public class GroupApplication extends Window implements IComponent {
 					(event) -> button.getStyle().setWidth(event.getWidth() + 20));
 		}
 
+		message_label.getStyle().setTop(10);
+		message_label.getStyle().setLeft(10);
+		message_label.getListenerMap().addListener(LabelWidthChangeEvent.class,
+				(event) -> message_label.getStyle().setWidth(event.getWidth()));
+
+		leave_button.getTextState().setText("bull");
+		
 		bottom_panel.add(leave_button);
 		bottom_panel.add(start_button);
-
+		bottom_panel.add(message_label);
+		
 		getContainer().add(bottom_panel);
+
+		EventManager.addListener(GroupUpdateEvent.class, groupUpdateListener);
+		EventManager.addListener(GroupMessageEvent.class, groupMessageListener);
 
 		if (GroupManager.getGroup() == null) {
 			GroupManager.create();
@@ -260,91 +282,119 @@ public class GroupApplication extends Window implements IComponent {
 			initGroup(GroupManager.getGroup());
 		}
 
+		for (GameMode gameMode : GameMode.values())
+			gamemodes.addElement(gameMode.toString().substring(0, 1).toUpperCase()
+					+ gameMode.toString().substring(1).toLowerCase());
+
+		for (Versus vs : Versus.values())
+			versus.addElement(vs.getText());
+
+		gamemodes.getListenerMap().addListener(SelectBoxChangeSelectionEvent.class, (event) -> setValueToGroup());
+		versus.getListenerMap().addListener(SelectBoxChangeSelectionEvent.class, (event) -> setValueToGroup());
+
 		load();
 	}
 
-	private void initGroup(GroupObject group) {
-		boolean youAreOwner = group.getOwner().getUuidString().equals(BackdoorGame.getUser().getUUIDString());
-		private_checkbox.setEnabled(youAreOwner);
-		if (youAreOwner) {
-			leave_button.getTextState().setText(Lang.get("group_delete_group"));
-		} else {
-			leave_button.getTextState().setText(Lang.get("group_leave_group"));
-
-			top_panel.remove(gamemodes);
-			top_panel.remove(versus);
-			top_panel.remove(private_checkbox);
-			
-			setReadyButton();
-		}
-
-		initPlayersList(group);
+	private void setValueToGroup() {
+		GroupManager.set(private_checkbox.isChecked(), GameMode.fromString(gamemodes.getSelection()),
+				Versus.fromString(versus.getSelection()));
 	}
 
 	private void setReadyButton() {
-		start_button.setVariable(getComponentVariable()+"_ready_button");
+		start_button.setVariable(getComponentVariable() + "_ready_button");
 		start_button.getTextState().setText(Lang.get("group_ready"));
 		start_button.load();
 	}
 
 	private void setUnreadyButton() {
-		start_button.setVariable(getComponentVariable()+"_unready_button");
+		start_button.setVariable(getComponentVariable() + "_unready_button");
 		start_button.getTextState().setText(Lang.get("group_unready"));
 		start_button.load();
 	}
-	
+
+	private void initGroup(GroupObject group) {
+		initPlayersList(group);
+		updateGroup(group);
+	}
+
 	private void updateGroup(GroupObject group) {
-		if (private_checkbox.isChecked() == GroupManager.privateParty) {
-			bottom_panel.remove(start_button);
-			if (group.getOwner().getUuidString().equals(BackdoorGame.getUser().getUUIDString())) {
-				if (GroupManager.privateParty) {
+		boolean youAreOwner = group.getOwner().getUuidString().equals(BackdoorGame.getUser().getUUIDString());
+
+		gamemodes.setEnabled(youAreOwner);
+		versus.setEnabled(youAreOwner);
+		private_checkbox.setEnabled(youAreOwner);
+		
+		private_checkbox.setChecked(group.isPrivate());
+		
+		updatePlayersList(group);
+
+		bottom_panel.remove(start_button);
+		if (youAreOwner) {
+			gamemodes.setEnabled(!group.isInQueue());
+			versus.setEnabled(!group.isInQueue());
+			private_checkbox.setEnabled(!group.isInQueue());
+
+			leave_button.getTextState().setText(Lang.get("group_delete_group"));
+			
+			if(group.isInQueue()) {
+				start_button.getTextState().setText(Lang.get("cancel_the_search"));
+				start_button.setVariable(getComponentVariable()+ "_cancel_search");
+				start_button.load();
+			}else {
+				if (group.isPrivate()) {
 					start_button.getTextState().setText(Lang.get("group_start_a_party"));
 				} else {
 					start_button.getTextState().setText(Lang.get("group_search_a_party"));
 				}
-			} else {
-				if (group.isReady(BackdoorGame.getUser().getUUIDString())) {
-					setUnreadyButton();
+				
+				if (group.getPlayersReady().size() == group.getPlayers().size() - 1) {
+					start_button.setEnabled(true);
 				} else {
-					setReadyButton();
+					start_button.setEnabled(false);
 				}
 			}
-			bottom_panel.add(start_button);
-		}
-		
-		updatePlayersList(group);
-		
-		if(group.getPlayersReady().size() == group.getPlayers().size() - 1) {
-			start_button.setEnabled(true);
 		} else {
-			start_button.setEnabled(false);
-		}
-		
-		if (!group.getOwner().getUuidString().equals(BackdoorGame.getUser().getUUIDString())) {
+			leave_button.getTextState().setText(Lang.get("group_leave_group"));
+			
 			if (group.isReady(BackdoorGame.getUser().getUUIDString())) {
 				setUnreadyButton();
 			} else {
 				setReadyButton();
 			}
 			start_button.load();
-		}
 
-		if (group.getPlayers().size() == GroupManager.getGroup().getPlayers().size()) {
-			return;
+			gamemodes.clearElements();
+			versus.clearElements();
+
+			GameMode gameMode = group.getGameMode();
+
+			gamemodes.addElement(
+					gameMode.toString().substring(0, 1).toUpperCase() + gameMode.toString().substring(1).toLowerCase());
+			versus.addElement(group.getVersus().getText());
+
+			private_checkbox.setChecked(group.isPrivate());
 		}
+		bottom_panel.add(start_button);
+
+		if (GroupManager.getGroup() != null && group.getPlayers().size() == GroupManager.getGroup().getPlayers().size()) 
+			return;
+		
 		initPlayersList(group);
 	}
-	
+
 	private void updatePlayersList(GroupObject group) {
-		for(Component childrenComponent : players_panel.getContainer().getChildComponents()) {
-			System.out.println(childrenComponent.getClass().getSimpleName()+" - "+(childrenComponent instanceof GroupPlayerComponent));
-			if(childrenComponent instanceof GroupPlayerComponent) {
+		for (Component childrenComponent : players_panel.getContainer().getChildComponents()) {
+			System.out.println(childrenComponent.getClass().getSimpleName() + " - "
+					+ (childrenComponent instanceof GroupPlayerComponent));
+			if (childrenComponent instanceof GroupPlayerComponent) {
 				GroupPlayerComponent groupPlayer = (GroupPlayerComponent) childrenComponent;
-				groupPlayer.getStatus().setColor(
-						group.getOwner().getUuidString().equals(groupPlayer.getProfile().getUuidString())
-						? DataParameters.convertColor(DataParameters.getColor(this, "player_status_leader"))
-						: DataParameters.convertColor(DataParameters.getColor(this, "player_status_"+
-						(group.isReady(groupPlayer.getProfile().getUuidString()) ? "ready" : "unready"))));
+				groupPlayer.getStatus()
+						.setColor(group.getOwner().getUuidString().equals(groupPlayer.getProfile().getUuidString())
+								? DataParameters.convertColor(DataParameters.getColor(this, "player_status_leader"))
+								: DataParameters.convertColor(DataParameters.getColor(this,
+										"player_status_"
+												+ (group.isReady(groupPlayer.getProfile().getUuidString()) ? "ready"
+														: "unready"))));
 			}
 		}
 	}
@@ -359,17 +409,18 @@ public class GroupApplication extends Window implements IComponent {
 			groupPlayer.getStyle().setTop(10 + players_list_off_y * (float) groupPlayer.getStyle().getHeight().get());
 			players_list_off_y++;
 
-			groupPlayer.getStatus().setColor(
-					group.getOwner().getUuidString().equals(player.getUuidString())
-					? DataParameters.convertColor(DataParameters.getColor(this, "player_status_leader"))
-					: DataParameters.convertColor(DataParameters.getColor(this, "player_status_"+
-					(group.isReady(player.getUuidString()) ? "ready" : "unready"))));
+			groupPlayer.getStatus()
+					.setColor(group.getOwner().getUuidString().equals(player.getUuidString())
+							? DataParameters.convertColor(DataParameters.getColor(this, "player_status_leader"))
+							: DataParameters.convertColor(DataParameters.getColor(this,
+									"player_status_" + (group.isReady(player.getUuidString()) ? "ready" : "unready"))));
 		}
 	}
 
 	@Override
 	public void closeWindow() {
-		EventManager.removeListener(GroupUpdateEvent.class, listener);
+		EventManager.removeListener(GroupMessageEvent.class, groupMessageListener);
+		EventManager.removeListener(GroupUpdateEvent.class, groupUpdateListener);
 		super.closeWindow();
 	}
 
@@ -383,12 +434,6 @@ public class GroupApplication extends Window implements IComponent {
 		}
 
 		players_panel.load();
-		
-		if (GroupManager.privateParty) {
-			start_button.getTextState().setText(Lang.get("group_start_a_party"));
-		} else {
-			start_button.getTextState().setText(Lang.get("group_search_a_party"));
-		}
 
 		private_checkbox.getTextState().setText(Lang.get("group_private_party"));
 		private_checkbox.load();

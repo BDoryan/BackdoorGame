@@ -21,8 +21,8 @@ import isotopestudio.backdoor.game.BackdoorGame;
 import isotopestudio.backdoor.game.settings.GameSettings;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class GeneralsPanel extends Panel implements IComponent {
 

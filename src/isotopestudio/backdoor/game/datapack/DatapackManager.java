@@ -14,8 +14,8 @@ import isotopestudio.backdoor.engine.datapack.DatapackObject;
 import isotopestudio.backdoor.game.BackdoorGame;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class DatapackManager {
 

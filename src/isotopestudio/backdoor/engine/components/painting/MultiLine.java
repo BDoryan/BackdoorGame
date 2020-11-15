@@ -4,8 +4,8 @@ import org.joml.Vector2f;
 import org.liquidengine.legui.component.Component;
 
 /**
- * @author BESSIERE Doryan
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class MultiLine {
 

@@ -67,9 +67,9 @@ public class GameParty {
 	/**
 	 * TODO: mettre à jour pour les serveurs (éléments) offline 
 	 */
-	public boolean connect(String adress) {
+	public boolean connect(String address) {
 		GameClient game_client = BackdoorGame.getGameClient();
-		game_client.sendPacket(new PacketPlayerConnectToElement(adress));
+		game_client.sendPacket(new PacketPlayerConnectToElement(address));
 		return false;
 	}
 

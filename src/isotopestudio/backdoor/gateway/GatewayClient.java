@@ -16,10 +16,10 @@ import isotopestudio.backdoor.gateway.packet.Packet;
 import isotopestudio.backdoor.gateway.packet.packets.PacketClientDisconnected;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
-public class GatewayClient extends Thread {
+public class GatewayClient {
 
 	public static GatewayClient INSTANCE;
 
@@ -31,6 +31,8 @@ public class GatewayClient extends Thread {
 	private User user;
 	private boolean connected = false;
 
+	private Thread thread;
+
 	public GatewayClient(User user) {
 		this.user = user;
 		INSTANCE = this;
@@ -38,27 +40,26 @@ public class GatewayClient extends Thread {
 
 	private String address;
 	private Integer port;
-	
+
 	private Timer timer;
 
 	public void connect(String address, int port, boolean autoconnect) throws UnknownHostException, IOException {
 		this.address = address;
 		this.port = port;
-		if(!autoconnect && timer != null) {
+		if (!autoconnect && timer != null) {
 			timer.cancel();
+			timer = null;
 		}
-		if(autoconnect) {
+		if (autoconnect) {
 			timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					if(isConnected())return;
+					if (isConnected())
+						return;
 					try {
+						System.err.println("Try to reconnect to the gateway server...");
 						reconnect();
-						if(isAlive())
-							stop();
-						
-						start();
 					} catch (Exception e) {
 						System.err.println("The server managing the gateway is currently unavailable...");
 						System.err.println("Attempt to reconnect in 5 seconds.");
@@ -70,72 +71,94 @@ public class GatewayClient extends Thread {
 	}
 
 	public void reconnect() throws UnknownHostException, IOException {
-		if (!isConnected()) 
+		if (!isConnected()) {
 			connect();
+		}
 	}
 
 	public void connect() throws UnknownHostException, IOException {
 		if (this.socket != null) {
 			close();
 		}
-		if(address == null || port == null) {
+		if (address == null || port == null) {
 			throw new IllegalStateException("address == null || port == null");
 		}
-		
-		this.socket = new Socket(address, port);	
+
+		this.socket = new Socket(address, port);
 		this.output = new DataOutputStream(this.socket.getOutputStream());
 		this.input = new DataInputStream(this.socket.getInputStream());
 		this.connected = true;
+		System.out.println("You are connected to the gateway");
 		start();
 	}
 
-	@Override
-	public void run() {
-		System.out.println("You are connected to the gateway");
-		sendData(BackdoorGame.GAME_VERSION + ";" + user.getEmail() + ";" + user.getToken());
-		if(dataInWaiting.size() > 0) {
-			for(String data : dataInWaiting) {
-				sendData(data);
-			}
-		}
-		while (connected) {
-			try {
-				Packet packet = readPacket();
-				try {
-					processPacket(packet);
-				} catch (ArrayIndexOutOfBoundsException e) {
-					disconnect("error_reading_packet");
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
+	private Runnable communication = new Runnable() {
+		@Override
+		public void run() {
+			System.out.println("Start communication with the gateway server");
+			sendData(BackdoorGame.GAME_VERSION + ";" + user.getEmail() + ";" + user.getToken());
+			if (dataInWaiting.size() > 0) {
+				BackdoorGame.getLogger().debug("Sending packets late...");
+				for (String data : dataInWaiting) {
+					sendData(data);
 				}
-			} catch (IOException e) {
-				connected = false;
 			}
+			while (connected) {
+				try {
+					Packet packet = readPacket();
+					try {
+						processPacket(packet);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						readPacketError("error_to_find_the_packet");
+						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+						readPacketError("error_reading_packet");
+					}
+				} catch (Exception e) {
+					disconnect("connection_lost");
+				}
+			}
+			disconnected();
 		}
-		disconnected();
+	};
+
+	public void readPacketError(String reason) {
+		disconnect(reason);
 	}
-	
+
+	public void start() {
+		if (this.thread != null && this.thread.isAlive())
+			this.thread.stop();
+
+		this.thread = new Thread(communication);
+		this.thread.start();
+	}
+
 	public ArrayList<String> dataInWaiting = new ArrayList<>();
 
-	public void sendData(String data) {
-		if(!isConnected()) {
+	public boolean sendData(String data) {
+		if (!isConnected()) {
 			dataInWaiting.add(data);
-			return;
+			return false;
 		}
 		try {
 			write(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	public void sendPacket(Packet packet) {
 		String data = packet.toData();
-		sendData(data);
-		BackdoorGame.getLogger().debug("sendPacket("+data+")");
+		if (sendData(data)) {
+			BackdoorGame.getLogger().debug("sendPacket(" + data + ")");
+		} else {
+			BackdoorGame.getLogger().debug("sendPacket(" + data + ") [waiting for connection]");
+		}
 	}
-	
+
 	public void processPacket(Packet packet) {
 		packet.process(this);
 	}
@@ -149,7 +172,7 @@ public class GatewayClient extends Thread {
 	 */
 	public Packet readPacket() throws IOException, java.lang.ArrayIndexOutOfBoundsException {
 		String data = read();
-		BackdoorGame.getLogger().debug("readPacket("+data+")");
+		BackdoorGame.getLogger().debug("readPacket(" + data + ")");
 		Packet packet = Packet.parsePacket(data);
 		packet.read();
 		return packet;
@@ -163,6 +186,8 @@ public class GatewayClient extends Thread {
 	 * @throws IOException
 	 */
 	public void write(String data) throws IOException {
+		if (output == null)
+			return;
 		// output.writeInt(bytes.length);
 		output.writeUTF(data);
 		output.flush();
@@ -191,10 +216,10 @@ public class GatewayClient extends Thread {
 			connected = false;
 			if (socket != null && !socket.isClosed())
 				socket.close();
-			if(input != null)
-			input.close();
-			if(output != null)
-			output.close();
+			if (input != null)
+				input.close();
+			if (output != null)
+				output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -227,6 +252,13 @@ public class GatewayClient extends Thread {
 	 */
 	public Socket getSocket() {
 		return socket;
+	}
+
+	/**
+	 * @return the thread
+	 */
+	public Thread getThread() {
+		return thread;
 	}
 
 	/**

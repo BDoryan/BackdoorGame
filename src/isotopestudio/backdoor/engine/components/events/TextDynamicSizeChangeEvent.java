@@ -7,8 +7,8 @@ import org.liquidengine.legui.system.context.Context;
 import isotopestudio.backdoor.engine.components.desktop.Text;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class TextDynamicSizeChangeEvent extends Event<Text>{
 

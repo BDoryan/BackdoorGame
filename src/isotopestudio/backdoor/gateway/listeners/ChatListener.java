@@ -3,8 +3,8 @@ package isotopestudio.backdoor.gateway.listeners;
 import doryanbessiere.isotopestudio.api.profile.Profile;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public abstract class ChatListener {
 

@@ -3,8 +3,8 @@ package isotopestudio.backdoor.game.server;
 import isotopestudio.backdoor.network.server.GameServer;
 
 /**
- * @author BESSIERE
- * @github https://www.github.com/DoryanBessiere/
+ * @author BDoryan
+ * @github https://www.github.com/BDoryan/
  */
 public class ServerMaker extends GameServer {
 

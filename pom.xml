@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>isotopestudio.backdoor.game</groupId>
 	<artifactId>game</artifactId>
-	<version>0.0.81-SNAPSHOT</version>
+	<version>0.0.82-SNAPSHOT</version>
 	<name>BackdoorGame</name>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -264,7 +264,7 @@
 		<dependency>
 			<groupId>isotopestudio.backdoor.core</groupId>
 			<artifactId>backdoorcore</artifactId>
-			<version>1.0.34</version>
+			<version>1.0.35</version>
 		</dependency>
 		<dependency>
 			<groupId>isotopestudio.backdoor.network</groupId>

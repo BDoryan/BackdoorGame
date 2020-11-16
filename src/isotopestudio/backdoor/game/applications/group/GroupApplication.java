@@ -91,7 +91,6 @@ public class GroupApplication extends Window implements IComponent {
 				message_label.getTextState().setText(Lang.translate(event.getMessage()));
 			}
 			message_label.load();
-			System.out.println("message update");
 		}
 	};
 
@@ -384,8 +383,6 @@ public class GroupApplication extends Window implements IComponent {
 
 	private void updatePlayersList(GroupObject group) {
 		for (Component childrenComponent : players_panel.getContainer().getChildComponents()) {
-			System.out.println(childrenComponent.getClass().getSimpleName() + " - "
-					+ (childrenComponent instanceof GroupPlayerComponent));
 			if (childrenComponent instanceof GroupPlayerComponent) {
 				GroupPlayerComponent groupPlayer = (GroupPlayerComponent) childrenComponent;
 				groupPlayer.getStatus()

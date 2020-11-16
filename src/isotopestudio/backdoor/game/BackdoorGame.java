@@ -908,7 +908,12 @@ public class BackdoorGame {
 
 				glfwPollEvents();
 				glfwSwapBuffers(game_window.getID());
-				animator.runAnimations();
+				
+				try {
+					animator.runAnimations();	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 				if (game_window.toggleFullscreen) {
 					game_window.toggleFullscreen();

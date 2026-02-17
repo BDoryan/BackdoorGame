@@ -1,5 +1,4 @@
 # Backdoor Game
-Développé par IsotopeStudio (Doryan Bessière)
 
 Backdoor est un MOBA se déroulant dans un environnement de bureau simulé. L'objectif principal est de capturer des zones appelées Proxies en les piratant. Le jeu mise sur une expérience compétitive, avec un système de classement et des parties classées, tout en proposant une campagne solo et plusieurs modes multijoueur.
 
@@ -60,3 +59,4 @@ Backdoor vise un large public, du joueur occasionnel au joueur compétitif. Le b
 - [resources](resources) assets et ressources.
 - [docs](docs) médias et visuels utilisés dans ce README.
 - [target](target) sorties de build (si générées).
+
